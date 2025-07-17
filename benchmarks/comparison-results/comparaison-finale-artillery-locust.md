@@ -2,7 +2,7 @@
 **Date**: 17/01/2025  
 **Objectif**: Comparer les outils de test de charge JavaScript (Artillery) et Python (Locust)
 
-## 📊 Résumé des Tests Réalisés
+## Résumé des Tests Réalisés
 
 ### Artillery (Nouveau - 17/01/2025)
 - **Version**: 2.0.23
@@ -18,7 +18,7 @@
   - Peak (200 users, 600s)
   - Stress (300 users, 900s)
 
-## 🔄 Comparaison Détaillée
+## Comparaison Détaillée
 
 ### Performance - Temps de Réponse
 
@@ -46,14 +46,14 @@
 
 | Fonctionnalité | Artillery | Locust |
 |----------------|-----------|---------|
-| **Phases de charge** | ✅ Excellent | ✅ Bon |
-| **Métriques temps réel** | ❌ Non | ✅ Excellent |
-| **Gestion d'erreurs** | ✅ Bon | ✅ Excellent |
-| **Scénarios complexes** | ⚠️ Limité | ✅ Excellent |
-| **Intégration CI/CD** | ✅ Excellent | ✅ Bon |
-| **Monitoring** | ❌ Basique | ✅ Avancé |
+| **Phases de charge** | Excellent | Bon |
+| **Métriques temps réel** | Non | Excellent |
+| **Gestion d'erreurs** | Bon | Excellent |
+| **Scénarios complexes** | Limité | Excellent |
+| **Intégration CI/CD** | Excellent | Bon |
+| **Monitoring** | Basique | Avancé |
 
-## 📈 Analyse des Résultats
+## Analyse des Résultats
 
 ### Points Forts Artillery
 - **Performance brute** : Très rapide, faible overhead
@@ -68,32 +68,32 @@
 - **Debugging** : Logs et erreurs détaillés
 - **Extensibilité** : Plugins et personnalisations
 
-## 🎯 Recommandations par Cas d'Usage
+## Recommandations par Cas d'Usage
 
 ### Pour BuyYourKawa (Coffee Shop API)
 
 #### Développement et Tests Locaux
-**Recommandation**: **Locust** ✅
+**Recommandation**: **Locust**
 - Interface web pour démonstrations
 - Debugging facile des problèmes
 - Métriques temps réel
 - Intégration naturelle avec FastAPI (Python)
 
 #### Tests d'Intégration Continue
-**Recommandation**: **Artillery** ✅
+**Recommandation**: **Artillery**
 - Exécution headless rapide
 - Configuration simple
 - Faible consommation ressources
 - Sortie JSON pour analyse automatique
 
 #### Tests de Performance Réguliers
-**Recommandation**: **Locust** ✅
+**Recommandation**: **Locust**
 - Monitoring continu
 - Rapports HTML détaillés
 - Analyse des tendances
 - Alertes personnalisées
 
-## 📋 Matrice de Décision
+## Matrice de Décision
 
 | Critère | Poids | Artillery | Locust | Gagnant |
 |---------|-------|-----------|---------|---------|
@@ -108,9 +108,9 @@
 - **Artillery**: 7.4/10
 - **Locust**: 8.6/10
 
-## 🏆 Verdict Final
+## Verdict Final
 
-### Pour BuyYourKawa : **Locust Recommandé** ✅
+### Pour BuyYourKawa : **Locust Recommandé**
 
 **Justification** :
 1. **Interface web essentielle** pour démonstrations clients
@@ -123,13 +123,13 @@
 - **Locust** : Tests principaux, développement, démonstrations
 - **Artillery** : Tests CI/CD, validation rapide, monitoring automatique
 
-## 📊 Prochaines Étapes
+## Prochaines Étapes
 
 ### Implémentation Immédiate
-1. ✅ **Locust configuré** (déjà fait - dossier reporting/)
-2. ✅ **Artillery testé** (validation réussie)
-3. ⏳ **k6 à installer** (pour comparaison complète)
-4. ⏳ **Tests de charge complets** avec Artillery
+1. **Locust configuré** (déjà fait - dossier reporting/)
+2. **Artillery testé** (validation réussie)
+3. **k6 à installer** (pour comparaison complète)
+4. **Tests de charge complets** avec Artillery
 
 ### Optimisations Futures
 1. **Pipeline CI/CD** avec Artillery
@@ -139,7 +139,7 @@
 
 ---
 
-## 📁 Fichiers de Référence
+## Fichiers de Référence
 - **Artillery**: `artillery-tests/results/validation-20250117-201200.json`
 - **Locust**: `reporting/Rapport_test_*.html`
 - **Comparaison**: `benchmarks/comparison-results/`

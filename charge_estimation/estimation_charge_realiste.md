@@ -3,7 +3,7 @@
 
 ---
 
-## 📊 1. Contexte et Hypothèses de Trafic
+## 1. Contexte et Hypothèses de Trafic
 
 ### 1.1 Profil de l'Entreprise
 - **Secteur** : Vente de café en ligne (B2B/B2C)
@@ -34,7 +34,7 @@ Basé sur les données de l'industrie :
 
 ---
 
-## 👥 2. Profils Utilisateurs et Comportements
+## 2. Profils Utilisateurs et Comportements
 
 ### 2.1 Personas Détaillés
 
@@ -77,7 +77,7 @@ Basé sur les données de l'industrie :
 
 ---
 
-## 📈 3. Modèle de Charge Détaillé
+## 3. Modèle de Charge Détaillé
 
 ### 3.1 Calcul des Utilisateurs Simultanés
 
@@ -107,22 +107,22 @@ Utilisateurs simultanés = (Visiteurs/heure × Durée session moyenne) / 3600 se
 
 #### Scénario 2 : Charge de Pointe (Realistic Peak)
 - **Utilisateurs simultanés** : 50
-- **Pattern** : Ramp-up 5min → Plateau 20min → Ramp-down 5min
+- **Pattern** : Ramp-up 5min -> Plateau 20min -> Ramp-down 5min
 - **Objectif** : Performance en conditions réelles
 
 #### Scénario 3 : Charge Exceptionnelle (Marketing Campaign)
 - **Utilisateurs simultanés** : 100
-- **Pattern** : Ramp-up 10min → Plateau 15min → Ramp-down 5min
+- **Pattern** : Ramp-up 10min -> Plateau 15min -> Ramp-down 5min
 - **Objectif** : Résistance aux pics marketing
 
 #### Scénario 4 : Test de Limite (Stress Test)
 - **Utilisateurs simultanés** : 200
-- **Pattern** : Ramp-up 15min → Plateau 10min → Ramp-down 5min
+- **Pattern** : Ramp-up 15min -> Plateau 10min -> Ramp-down 5min
 - **Objectif** : Identification du point de rupture
 
 ---
 
-## 🎯 4. Objectifs de Performance
+## 4. Objectifs de Performance
 
 ### 4.1 SLA (Service Level Agreement)
 
@@ -144,13 +144,13 @@ Utilisateurs simultanés = (Visiteurs/heure × Durée session moyenne) / 3600 se
 
 ---
 
-## 🔄 5. Patterns de Charge Détaillés
+## 5. Patterns de Charge Détaillés
 
 ### 5.1 Pattern Journalier Type
 ```
 06h-08h : 5% du trafic (2-3 users simultanés)
 08h-10h : 20% du trafic (8-12 users simultanés)
-10h-12h : 25% du trafic (12-18 users simultanés) ← PEAK
+10h-12h : 25% du trafic (12-18 users simultanés) <- PEAK
 12h-14h : 15% du trafic (6-9 users simultanés)
 14h-16h : 20% du trafic (8-12 users simultanés)
 16h-18h : 10% du trafic (4-6 users simultanés)
@@ -171,7 +171,7 @@ Utilisateurs simultanés = (Visiteurs/heure × Durée session moyenne) / 3600 se
 
 ---
 
-## 📋 6. Scénarios de Test Détaillés
+## 6. Scénarios de Test Détaillés
 
 ### 6.1 Scénario "Consultation Client" (70% du trafic)
 ```python
@@ -204,7 +204,7 @@ Utilisateurs simultanés = (Visiteurs/heure × Durée session moyenne) / 3600 se
 
 ---
 
-## 🎯 7. Recommandations d'Implémentation
+## 7. Recommandations d'Implémentation
 
 ### 7.1 Phases de Test Recommandées
 
@@ -239,7 +239,7 @@ Utilisateurs simultanés = (Visiteurs/heure × Durée session moyenne) / 3600 se
 
 ---
 
-## 📊 8. Analyse Comparative Marché
+## 8. Analyse Comparative Marché
 
 ### 8.1 Benchmarks Concurrents
 
@@ -258,7 +258,7 @@ Notre API BuyYourKawa vise un positionnement **PME/Startup** :
 
 ---
 
-## 🚀 9. Plan de Montée en Charge
+## 9. Plan de Montée en Charge
 
 ### 9.1 Roadmap 6 Mois
 
@@ -282,7 +282,7 @@ Notre API BuyYourKawa vise un positionnement **PME/Startup** :
 
 ---
 
-## ✅ 10. Conclusion et Recommandations
+## 10. Conclusion et Recommandations
 
 ### 10.1 Estimation Finale Réaliste
 - **Charge normale** : 20-30 utilisateurs simultanés
@@ -292,7 +292,7 @@ Notre API BuyYourKawa vise un positionnement **PME/Startup** :
 
 ### 10.2 Actions Prioritaires
 1. **Immédiat** : Tester avec 50 utilisateurs simultanés
-2. **Court terme** : Optimiser l'endpoint `/token` (780ms → 300ms)
+2. **Court terme** : Optimiser l'endpoint `/token` (780ms -> 300ms)
 3. **Moyen terme** : Implémenter un cache pour les lectures
 4. **Long terme** : Préparer la scalabilité horizontale
 

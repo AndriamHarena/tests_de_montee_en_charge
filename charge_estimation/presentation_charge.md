@@ -1,18 +1,18 @@
-# 📊 Présentation - Estimation de Charge BuyYourKawa
+# Présentation - Estimation de Charge BuyYourKawa
 
 ---
 
-## 🎯 Objectif de la Présentation
+## Objectif de la Présentation
 
 Définir une estimation de charge **réaliste et chiffrée** pour l'API BuyYourKawa basée sur :
-- ✅ Benchmarks de l'industrie coffee shop
-- ✅ Données de marché e-commerce français
-- ✅ Analyse comportementale des utilisateurs
-- ✅ Contraintes techniques identifiées
+- Benchmarks de l'industrie coffee shop
+- Données de marché e-commerce français
+- Analyse comportementale des utilisateurs
+- Contraintes techniques identifiées
 
 ---
 
-## 📈 Contexte Business
+## Contexte Business
 
 ### Profil de l'Entreprise
 - **Secteur** : Coffee shop avec API de gestion clients
@@ -30,21 +30,21 @@ Définir une estimation de charge **réaliste et chiffrée** pour l'API BuyYourK
 
 ---
 
-## 👥 Profils Utilisateurs (Personas)
+## Profils Utilisateurs (Personas)
 
-### 🏪 Gérant Coffee Shop (60%)
+### Gérant Coffee Shop (60%)
 - **Sessions/jour** : 4
 - **Durée** : 10 minutes
 - **Peak** : 9h-11h, 14h-16h
 - **Actions** : Gestion clients, consultations
 
-### ☕ Barista/Employé (30%)
+### Barista/Employé (30%)
 - **Sessions/jour** : 2-3
 - **Durée** : 4 minutes  
 - **Peak** : 8h-10h, 16h-18h
 - **Actions** : Consultation clients
 
-### 📊 Manager/Analyste (10%)
+### Manager/Analyste (10%)
 - **Sessions/jour** : 1-2
 - **Durée** : 20 minutes
 - **Peak** : 10h-12h
@@ -52,7 +52,7 @@ Définir une estimation de charge **réaliste et chiffrée** pour l'API BuyYourK
 
 ---
 
-## 📊 Calcul des Utilisateurs Simultanés
+## Calcul des Utilisateurs Simultanés
 
 ### Méthode de Calcul
 ```
@@ -73,7 +73,7 @@ Utilisateurs simultanés = (Visiteurs/heure × Durée session) / 3600s
 
 ---
 
-## 🎯 Scénarios de Test Définis
+## Scénarios de Test Définis
 
 ### Scénario 1 : Charge Normale
 ```json
@@ -88,7 +88,7 @@ Utilisateurs simultanés = (Visiteurs/heure × Durée session) / 3600s
 ```json
 {
   "users_concurrent": 50,
-  "load_pattern": "ramp-up 5min → plateau 20min → down 5min",
+  "load_pattern": "ramp-up 5min -> plateau 20min -> down 5min",
   "objective": "Performance réaliste"
 }
 ```
@@ -97,7 +97,7 @@ Utilisateurs simultanés = (Visiteurs/heure × Durée session) / 3600s
 ```json
 {
   "users_concurrent": 100,
-  "load_pattern": "ramp-up 10min → plateau 30min → down 5min",
+  "load_pattern": "ramp-up 10min -> plateau 30min -> down 5min",
   "objective": "Résistance aux pics"
 }
 ```
@@ -106,27 +106,27 @@ Utilisateurs simultanés = (Visiteurs/heure × Durée session) / 3600s
 ```json
 {
   "users_concurrent": 200,
-  "load_pattern": "ramp-up 15min → plateau 10min → down 5min",
+  "load_pattern": "ramp-up 15min -> plateau 10min -> down 5min",
   "objective": "Point de rupture"
 }
 ```
 
 ---
 
-## 📋 Répartition du Trafic API
+## Répartition du Trafic API
 
 | Endpoint | % Trafic | Req/Session | Performance Actuelle | Cible |
 |----------|----------|-------------|---------------------|-------|
-| `POST /token` | **100%** | 1 | ⚠️ 780ms | 300ms |
-| `GET /clients` | **85%** | 3 | ⚠️ 350ms | 250ms |
-| `POST /clients` | **25%** | 1 | ⚠️ 580ms | 400ms |
-| `GET /clients/{id}` | **60%** | 3 | ✅ 280ms | 200ms |
-| `PUT /clients/{id}` | **15%** | 1 | ✅ 450ms | 400ms |
-| `DELETE /clients/{id}` | **5%** | 1 | ✅ 320ms | 300ms |
+| `POST /token` | **100%** | 1 | 780ms | 300ms |
+| `GET /clients` | **85%** | 3 | 350ms | 250ms |
+| `POST /clients` | **25%** | 1 | 580ms | 400ms |
+| `GET /clients/{id}` | **60%** | 3 | 280ms | 200ms |
+| `PUT /clients/{id}` | **15%** | 1 | 450ms | 400ms |
+| `DELETE /clients/{id}` | **5%** | 1 | 320ms | 300ms |
 
 ---
 
-## 🚨 SLA et Objectifs de Performance
+## SLA et Objectifs de Performance
 
 ### Seuils de Performance
 | Charge | Temps Moyen | 95e Percentile | Erreurs | Disponibilité |
@@ -136,14 +136,14 @@ Utilisateurs simultanés = (Visiteurs/heure × Durée session) / 3600s
 | **Campagne** | < 800ms | < 2000ms | < 2% | 99% |
 
 ### Seuils d'Alerte
-- 🟢 **0-30 users** : Monitoring normal
-- 🟠 **31-75 users** : Surveillance renforcée  
-- 🔴 **76-150 users** : Alerte équipe technique
-- ⚫ **>150 users** : Plan d'urgence
+- **0-30 users** : Monitoring normal
+- **31-75 users** : Surveillance renforcée  
+- **76-150 users** : Alerte équipe technique
+- **>150 users** : Plan d'urgence
 
 ---
 
-## 🔧 Actions Correctives Prioritaires
+## Actions Correctives Prioritaires
 
 ### Problèmes Identifiés
 1. **Authentification lente** : 780ms → 300ms cible
@@ -161,7 +161,7 @@ Utilisateurs simultanés = (Visiteurs/heure × Durée session) / 3600s
 
 ---
 
-## 💰 Coûts et ROI
+## Coûts et ROI
 
 ### Investissements Infrastructure
 | Phase | Configuration | Coût/Mois | Capacité |
@@ -175,11 +175,11 @@ Utilisateurs simultanés = (Visiteurs/heure × Durée session) / 3600s
 - **Investissement** : 150€/mois supplémentaires
 - **Capacité** : ×3 (30 → 100 users)
 - **CA potentiel** : +15 000€/mois (100 clients × 150€)
-- **ROI** : **100:1** 🚀
+- **ROI** : **100:1**
 
 ---
 
-## 📅 Planning de Tests
+## Planning de Tests
 
 ### Phase 1 : Validation (Semaine 1)
 - **Objectif** : Fonctionnel sous charge légère
@@ -198,29 +198,29 @@ Utilisateurs simultanés = (Visiteurs/heure × Durée session) / 3600s
 
 ---
 
-## ✅ Critères de Succès
+## Critères de Succès
 
 ### Fonctionnel
-- ✅ Tous les endpoints répondent
-- ✅ Authentification stable
-- ✅ Cohérence des données
-- ✅ Aucune perte de données
+- Tous les endpoints répondent
+- Authentification stable
+- Cohérence des données
+- Aucune perte de données
 
 ### Performance
-- ✅ 50 users simultanés supportés
-- ✅ Temps de réponse < 800ms en pic
-- ✅ Taux d'erreur < 2%
-- ✅ Récupération < 5min après incident
+- 50 users simultanés supportés
+- Temps de réponse < 800ms en pic
+- Taux d'erreur < 2%
+- Récupération < 5min après incident
 
 ### Business
-- ✅ Support campagne marketing
-- ✅ Expérience utilisateur préservée
-- ✅ Coûts maîtrisés
-- ✅ Évolutivité préparée
+- Support campagne marketing
+- Expérience utilisateur préservée
+- Coûts maîtrisés
+- Évolutivité préparée
 
 ---
 
-## 🎯 Recommandations Finales
+## Recommandations Finales
 
 ### Estimation Réaliste Finale
 - **Charge normale** : **25 utilisateurs simultanés**
@@ -229,15 +229,15 @@ Utilisateurs simultanés = (Visiteurs/heure × Durée session) / 3600s
 - **Limite technique** : **~200 utilisateurs simultanés**
 
 ### Actions Immédiates
-1. ⚡ **Optimiser l'authentification** (priorité 1)
-2. 🗄️ **Implémenter cache Redis** (priorité 2)  
-3. 📊 **Mettre en place monitoring** (priorité 3)
-4. 🧪 **Lancer tests avec 50 users** (validation)
+1. **Optimiser l'authentification** (priorité 1)
+2. **Implémenter cache Redis** (priorité 2)  
+3. **Mettre en place monitoring** (priorité 3)
+4. **Lancer tests avec 50 users** (validation)
 
 ---
 
-## 📞 Questions & Discussion
+## Questions & Discussion
 
-**Prêt pour les tests de charge réalistes !** 🚀
+**Prêt pour les tests de charge réalistes !**
 
 *Estimation basée sur benchmarks industrie et analyse technique approfondie*

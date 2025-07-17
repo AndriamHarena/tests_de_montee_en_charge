@@ -63,11 +63,11 @@ def run_locust_test(scenario_name, host="http://localhost:8000"):
         "--print-stats"
     ]
     
-    print(f"🚀 Lancement du test '{scenario_name}': {scenario['description']}")
-    print(f"   👥 Utilisateurs: {scenario['users']} | ⚡ Spawn rate: {scenario['spawn_rate']} | ⏱️ Durée: {scenario['duration']}")
-    print(f"   📊 Rapport HTML: {html_report}")
-    print(f"   📈 Rapport CSV: {csv_report}")
-    print(f"   🔄 Commande: {' '.join(cmd)}")
+    print(f"Lancement du test '{scenario_name}': {scenario['description']}")
+    print(f"   Utilisateurs: {scenario['users']} | Spawn rate: {scenario['spawn_rate']} | Durée: {scenario['duration']}")
+    print(f"   Rapport HTML: {html_report}")
+    print(f"   Rapport CSV: {csv_report}")
+    print(f"   Commande: {' '.join(cmd)}")
     
     try:
         # Lancer le test avec affichage en temps réel
@@ -79,25 +79,25 @@ def run_locust_test(scenario_name, host="http://localhost:8000"):
             if output == '' and process.poll() is not None:
                 break
             if output:
-                print(f"   📊 {output.strip()}")
+                print(f"   {output.strip()}")
         
         # Attendre la fin du processus
         return_code = process.poll()
         
         if return_code == 0:
-            print(f"✅ Test '{scenario_name}' terminé avec succès")
+            print(f"Test '{scenario_name}' terminé avec succès")
             return True, html_report, csv_report
         else:
             stderr = process.stderr.read()
-            print(f"❌ Test '{scenario_name}' échoué (code: {return_code}):")
+            print(f"Test '{scenario_name}' échoué (code: {return_code}):")
             print(f"   {stderr}")
             return False, None, None
             
     except subprocess.TimeoutExpired:
-        print(f"⏰ Test '{scenario_name}' interrompu (timeout)")
+        print(f"Test '{scenario_name}' interrompu (timeout)")
         return False, None, None
     except Exception as e:
-        print(f"💥 Erreur lors du test '{scenario_name}': {e}")
+        print(f"Erreur lors du test '{scenario_name}': {e}")
         return False, None, None
 
 def check_api_health(host="http://localhost:8000"):
@@ -110,7 +110,7 @@ def check_api_health(host="http://localhost:8000"):
         # Test de base - documentation
         response = requests.get(f"{host}/docs", timeout=5)
         if response.status_code != 200:
-            print(f"❌ Documentation API non accessible (status: {response.status_code})")
+            print(f"Documentation API non accessible (status: {response.status_code})")
             return False
         
         # Test d'authentification
@@ -118,18 +118,18 @@ def check_api_health(host="http://localhost:8000"):
                                     data={"username": "admin", "password": "password"},
                                     timeout=5)
         if auth_response.status_code != 200:
-            print(f"❌ Authentification échouée (status: {auth_response.status_code})")
+            print(f"Authentification échouée (status: {auth_response.status_code})")
             return False
         
-        print("✅ API accessible et fonctionnelle")
+        print("API accessible et fonctionnelle")
         return True
         
     except ImportError:
-        print("⚠️ Module 'requests' non installé, vérification basique seulement")
+        print("Module 'requests' non installé, vérification basique seulement")
         return True
     except Exception as e:
-        print(f"❌ Impossible de joindre l'API: {e}")
-        print("💡 Assurez-vous que l'API est démarrée: python -m uvicorn main:app --reload --port 8000")
+        print(f"Impossible de joindre l'API: {e}")
+        print("Assurez-vous que l'API est démarrée: python -m uvicorn main:app --reload --port 8000")
         return False
 
 def analyze_results(csv_file):
@@ -157,7 +157,7 @@ def analyze_results(csv_file):
                     "failure_rate": (int(parts[3]) / int(parts[2]) * 100) if int(parts[2]) > 0 else 0
                 }
     except Exception as e:
-        print(f"⚠️ Erreur lors de l'analyse des résultats: {e}")
+        print(f"Erreur lors de l'analyse des résultats: {e}")
     
     return None
 
@@ -165,10 +165,10 @@ def main():
     """
     Fonction principale - lance tous les tests et génère le rapport de validation
     """
-    print("🔧 BuyYourKawa API - Tests de Charge pour Plan d'Actions Correctives")
+    print("BuyYourKawa API - Tests de Charge pour Plan d'Actions Correctives")
     print("=" * 70)
-    print("📋 Objectif: Valider les métriques avant/après optimisations")
-    print("🎯 Seuils: Temps < 200ms, Échecs < 2%, Disponibilité > 99%")
+    print("Objectif: Valider les métriques avant/après optimisations")
+    print("Seuils: Temps < 200ms, Échecs < 2%, Disponibilité > 99%")
     print("=" * 70)
     
     # Créer le dossier de rapports s'il n'existe pas
@@ -197,51 +197,51 @@ def main():
         }
         
         if success and analysis:
-            print(f"📊 Résultats rapides:")
-            print(f"   📈 Requêtes totales: {analysis['requests']}")
-            print(f"   ❌ Échecs: {analysis['failures']} ({analysis['failure_rate']:.1f}%)")
-            print(f"   ⏱️ Temps moyen: {analysis['avg_response_time']:.0f}ms")
-            print(f"   📄 Rapport détaillé: {html_report}")
+            print(f"Résultats rapides:")
+            print(f"   Requêtes totales: {analysis['requests']}")
+            print(f"   Échecs: {analysis['failures']} ({analysis['failure_rate']:.1f}%)")
+            print(f"   Temps moyen: {analysis['avg_response_time']:.0f}ms")
+            print(f"   Rapport détaillé: {html_report}")
             
             # Validation des seuils
             if analysis['avg_response_time'] > 200:
-                print(f"   ⚠️ SEUIL DÉPASSÉ: Temps de réponse > 200ms")
+                print(f"   SEUIL DÉPASSÉ: Temps de réponse > 200ms")
             if analysis['failure_rate'] > 2:
-                print(f"   ⚠️ SEUIL DÉPASSÉ: Taux d'échec > 2%")
+                print(f"   SEUIL DÉPASSÉ: Taux d'échec > 2%")
         
         # Pause entre les tests pour éviter la surcharge
         if scenario_name != "stress":
-            print("⏳ Pause de 15 secondes avant le test suivant...")
+            print("Pause de 15 secondes avant le test suivant...")
             time.sleep(15)
     
     # Résumé final avec validation des seuils
     print("\n" + "="*70)
-    print("📋 RÉSUMÉ DES TESTS - VALIDATION PLAN D'ACTIONS")
+    print("RÉSUMÉ DES TESTS - VALIDATION PLAN D'ACTIONS")
     print("="*70)
     
     for scenario, result in test_results.items():
-        status = "✅ SUCCÈS" if result["success"] else "❌ ÉCHEC"
+        status = "SUCCÈS" if result["success"] else "ÉCHEC"
         print(f"{scenario.ljust(12)} : {status}")
         
         if result["success"] and result["analysis"]:
             analysis = result["analysis"]
-            print(f"             📊 {analysis['requests']} req | ❌ {analysis['failure_rate']:.1f}% échecs | ⏱️ {analysis['avg_response_time']:.0f}ms")
-            print(f"             📄 {result['html_report']}")
+            print(f"             {analysis['requests']} req | {analysis['failure_rate']:.1f}% échecs | {analysis['avg_response_time']:.0f}ms")
+            print(f"             {result['html_report']}")
             
             # Validation des seuils critiques
             if analysis['avg_response_time'] > 500:
-                print(f"             🚨 CRITIQUE: Temps > 500ms")
+                print(f"             CRITIQUE: Temps > 500ms")
             elif analysis['avg_response_time'] > 200:
-                print(f"             ⚠️ ATTENTION: Temps > 200ms")
+                print(f"             ATTENTION: Temps > 200ms")
             
             if analysis['failure_rate'] > 5:
-                print(f"             🚨 CRITIQUE: Échecs > 5%")
+                print(f"             CRITIQUE: Échecs > 5%")
             elif analysis['failure_rate'] > 2:
-                print(f"             ⚠️ ATTENTION: Échecs > 2%")
+                print(f"             ATTENTION: Échecs > 2%")
     
-    print("\n🎯 Tests terminés !")
-    print("💡 Consultez les rapports HTML détaillés dans le dossier 'reporting/'")
-    print("📊 Utilisez ces métriques pour valider l'efficacité du plan d'actions correctives")
+    print("\nTests terminés !")
+    print("Consultez les rapports HTML détaillés dans le dossier 'reporting/'")
+    print("Utilisez ces métriques pour valider l'efficacité du plan d'actions correctives")
 
 if __name__ == "__main__":
     main()

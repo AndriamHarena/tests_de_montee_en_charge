@@ -27,7 +27,7 @@ export const options = {
 let authToken = '';
 
 export function setup() {
-    console.log('🔧 Configuration du test de validation k6');
+    console.log('Configuration du test de validation k6');
     
     // Authentification initiale
     const authResponse = http.post('http://localhost:8000/token', {
@@ -39,10 +39,10 @@ export function setup() {
     
     if (authResponse.status === 200) {
         const token = JSON.parse(authResponse.body).access_token;
-        console.log('✅ Authentification réussie pour setup');
+        console.log('Authentification réussie pour setup');
         return { token: token };
     } else {
-        console.error('❌ Échec authentification setup');
+        console.error('Échec authentification setup');
         return { token: null };
     }
 }
@@ -141,7 +141,7 @@ export default function(data) {
 }
 
 export function teardown(data) {
-    console.log('🧹 Nettoyage du test de validation k6');
+    console.log('Nettoyage du test de validation k6');
 }
 
 export function handleSummary(data) {
@@ -176,7 +176,7 @@ function htmlReport(data) {
 </head>
 <body>
     <div class="header">
-        <h1>🧪 Rapport de Validation k6</h1>
+        <h1>Rapport de Validation k6</h1>
         <p>API BuyYourKawa - ${timestamp}</p>
     </div>
     
@@ -202,7 +202,7 @@ function htmlReport(data) {
         </div>
     </div>
     
-    <h2>📊 Détails des Métriques</h2>
+    <h2>Détails des Métriques</h2>
     <pre>${JSON.stringify(data.metrics, null, 2)}</pre>
 </body>
 </html>`;
@@ -210,15 +210,15 @@ function htmlReport(data) {
 
 function textSummary(data, options) {
     return `
-🧪 RAPPORT DE VALIDATION k6 - BuyYourKawa
+RAPPORT DE VALIDATION k6 - BuyYourKawa
 =========================================
 
-📊 Métriques Principales:
+Métriques Principales:
 - Requêtes totales: ${data.metrics.http_reqs.values.count}
 - Taux d'échec: ${(data.metrics.http_req_failed.values.rate * 100).toFixed(2)}%
 - Temps réponse P95: ${data.metrics.http_req_duration.values.p95.toFixed(0)}ms
 - Taux de succès: ${((data.metrics.success_rate?.values.rate || 0) * 100).toFixed(2)}%
 
-✅ Validation: ${data.metrics.http_req_failed.values.rate < 0.05 ? 'RÉUSSIE' : 'ÉCHOUÉE'}
+Validation: ${data.metrics.http_req_failed.values.rate < 0.05 ? 'RÉUSSIE' : 'ÉCHOUÉE'}
 `;
 }

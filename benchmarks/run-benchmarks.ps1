@@ -5,19 +5,19 @@ param(
     [switch]$SkipApiCheck = $false
 )
 
-Write-Host "🚀 Lancement des benchmarks BuyYourKawa" -ForegroundColor Green
+Write-Host "Lancement des benchmarks BuyYourKawa" -ForegroundColor Green
 Write-Host "Outil: $Tool | Test: $Test" -ForegroundColor Cyan
 
 # Vérifier que l'API est démarrée
 if (-not $SkipApiCheck) {
-    Write-Host "🔍 Vérification de l'API..." -ForegroundColor Yellow
+    Write-Host "Vérification de l'API..." -ForegroundColor Yellow
     try {
         $response = Invoke-WebRequest -Uri "http://localhost:8000/docs" -TimeoutSec 5
         if ($response.StatusCode -eq 200) {
-            Write-Host "✅ API BuyYourKawa accessible" -ForegroundColor Green
+            Write-Host "API BuyYourKawa accessible" -ForegroundColor Green
         }
     } catch {
-        Write-Host "❌ API non accessible. Démarrez l'API avec: python main.py" -ForegroundColor Red
+        Write-Host "API non accessible. Démarrez l'API avec: python main.py" -ForegroundColor Red
         exit 1
     }
 }
@@ -28,7 +28,7 @@ $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 function Run-K6Tests {
     param($TestType)
     
-    Write-Host "🔧 Exécution des tests k6 ($TestType)..." -ForegroundColor Yellow
+    Write-Host "Exécution des tests k6 ($TestType)..." -ForegroundColor Yellow
     
     $scriptPath = "k6-tests\$TestType-test.js"
     $outputPath = "k6-tests\results\k6-$TestType-$timestamp"
@@ -36,13 +36,13 @@ function Run-K6Tests {
     if (Test-Path $scriptPath) {
         try {
             k6 run --out json="$outputPath.json" --out csv="$outputPath.csv" $scriptPath
-            Write-Host "✅ Test k6 $TestType terminé" -ForegroundColor Green
-            Write-Host "📊 Résultats: $outputPath.*" -ForegroundColor Cyan
+            Write-Host "Test k6 $TestType terminé" -ForegroundColor Green
+            Write-Host "Résultats: $outputPath.*" -ForegroundColor Cyan
         } catch {
-            Write-Host "❌ Erreur k6: $_" -ForegroundColor Red
+            Write-Host "Erreur k6 $TestType : $_" -ForegroundColor Red
         }
     } else {
-        Write-Host "❌ Script k6 non trouvé: $scriptPath" -ForegroundColor Red
+        Write-Host "Script k6 non trouvé: $ScriptPath" -ForegroundColor Red
     }
 }
 
@@ -50,7 +50,7 @@ function Run-K6Tests {
 function Run-ArtilleryTests {
     param($TestType)
     
-    Write-Host "🔧 Exécution des tests Artillery ($TestType)..." -ForegroundColor Yellow
+    Write-Host "Exécution des tests Artillery ($TestType)..." -ForegroundColor Yellow
     
     $scriptPath = "artillery-tests\$TestType-test.yml"
     $outputPath = "artillery-tests\results\artillery-$TestType-$timestamp.json"
@@ -58,18 +58,18 @@ function Run-ArtilleryTests {
     if (Test-Path $scriptPath) {
         try {
             artillery run --output $outputPath $scriptPath
-            Write-Host "✅ Test Artillery $TestType terminé" -ForegroundColor Green
-            Write-Host "📊 Résultats: $outputPath" -ForegroundColor Cyan
+            Write-Host "Test Artillery $TestType terminé" -ForegroundColor Green
+            Write-Host "Résultats disponibles dans:" -ForegroundColor Yellow
             
             # Générer rapport HTML
             $htmlOutput = $outputPath.Replace(".json", ".html")
             artillery report --output $htmlOutput $outputPath
-            Write-Host "📈 Rapport HTML: $htmlOutput" -ForegroundColor Cyan
+            Write-Host "Rapport HTML: $htmlOutput" -ForegroundColor Cyan
         } catch {
-            Write-Host "❌ Erreur Artillery: $_" -ForegroundColor Red
+            Write-Host "Erreur Artillery $TestType : $_" -ForegroundColor Red
         }
     } else {
-        Write-Host "❌ Script Artillery non trouvé: $scriptPath" -ForegroundColor Red
+        Write-Host "Script Artillery non trouvé: $ScriptPath" -ForegroundColor Red
     }
 }
 
@@ -77,7 +77,7 @@ function Run-ArtilleryTests {
 function Run-LocustTests {
     param($TestType)
     
-    Write-Host "🔧 Exécution des tests Locust ($TestType)..." -ForegroundColor Yellow
+    Write-Host "Exécution des tests Locust ($TestType)..." -ForegroundColor Yellow
     
     $scriptPath = "..\corrective-actions\load-test-fixes\locustfile_corrected.py"
     $outputPath = "comparison-results\locust-$TestType-$timestamp"
@@ -93,13 +93,13 @@ function Run-LocustTests {
             }
             
             locust -f $scriptPath --host=http://localhost:8000 --users $users --spawn-rate 5 -t $duration --html="$outputPath.html" --csv="$outputPath" --headless
-            Write-Host "✅ Test Locust $TestType terminé" -ForegroundColor Green
-            Write-Host "📊 Résultats: $outputPath.*" -ForegroundColor Cyan
+            Write-Host "Test Locust $TestType terminé" -ForegroundColor Green
+            Write-Host "Résultats: $outputPath.*" -ForegroundColor Cyan
         } catch {
-            Write-Host "❌ Erreur Locust: $_" -ForegroundColor Red
+            Write-Host "Erreur Locust $TestType : $_" -ForegroundColor Red
         }
     } else {
-        Write-Host "❌ Script Locust non trouvé: $scriptPath" -ForegroundColor Red
+        Write-Host "Script Locust non trouvé: $ScriptPath" -ForegroundColor Red
     }
 }
 
@@ -115,7 +115,7 @@ switch ($Tool.ToLower()) {
         Run-LocustTests $Test
     }
     "all" {
-        Write-Host "🔄 Exécution de tous les outils..." -ForegroundColor Magenta
+        Write-Host "Exécution de tous les outils..." -ForegroundColor Magenta
         
         # Séquence d'exécution avec pauses
         Run-K6Tests $Test
@@ -126,18 +126,18 @@ switch ($Tool.ToLower()) {
         
         Run-LocustTests $Test
         
-        Write-Host "🎉 Tous les benchmarks terminés!" -ForegroundColor Green
-        Write-Host "📊 Consultez les dossiers results/ pour les résultats détaillés" -ForegroundColor Cyan
+        Write-Host "Benchmarks terminés!" -ForegroundColor Green
+        Write-Host "Consultez les dossiers results/ pour les résultats détaillés" -ForegroundColor Cyan
     }
     default {
-        Write-Host "❌ Outil non reconnu: $Tool" -ForegroundColor Red
+        Write-Host "Outil non reconnu: $Tool" -ForegroundColor Red
         Write-Host "Outils disponibles: k6, artillery, locust, all" -ForegroundColor Yellow
     }
 }
 
 # Génération du rapport de comparaison
 if ($Tool -eq "all") {
-    Write-Host "📈 Génération du rapport de comparaison..." -ForegroundColor Yellow
+    Write-Host "Génération du rapport de comparaison..." -ForegroundColor Yellow
     
     $comparisonReport = @"
 # Rapport de Comparaison - $timestamp
@@ -172,5 +172,5 @@ if ($Tool -eq "all") {
 "@
     
     $comparisonReport | Out-File -FilePath "comparison-results\comparison-$timestamp.md" -Encoding UTF8
-    Write-Host "✅ Rapport de comparaison créé: comparison-results\comparison-$timestamp.md" -ForegroundColor Green
+    Write-Host "Rapport de comparaison créé: comparison-results\comparison-$timestamp.md" -ForegroundColor Green
 }

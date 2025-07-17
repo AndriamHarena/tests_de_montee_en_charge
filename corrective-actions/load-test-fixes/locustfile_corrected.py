@@ -38,7 +38,7 @@ class BuyYourKawaUser(HttpUser):
             self.headers = {"Authorization": f"Bearer {self.token}"}
         else:
             self.headers = {}
-            print(f"❌ Échec authentification: {response.status_code}")
+            print(f"Échec authentification: {response.status_code}")
     
     @task(3)
     def get_clients_list(self):
@@ -96,7 +96,7 @@ class BuyYourKawaUser(HttpUser):
                             json=client_data,
                             headers=self.headers,
                             catch_response=True) as response:
-            # 🔧 CORRECTION: Accepter 200 ET 201 (au lieu de seulement 201)
+            # CORRECTION: Accepter 200 ET 201 (au lieu de seulement 201)
             if response.status_code in [200, 201]:
                 client = response.json()
                 if client.get("id"):
@@ -168,7 +168,7 @@ class BuyYourKawaUser(HttpUser):
                             json=product_data,
                             headers=self.headers,
                             catch_response=True) as response:
-            # 🔧 CORRECTION: Accepter 200 ET 201 (au lieu de seulement 201)
+            # CORRECTION: Accepter 200 ET 201 (au lieu de seulement 201)
             if response.status_code in [200, 201]:
                 product = response.json()
                 if product.get("id"):
@@ -189,7 +189,7 @@ class BuyYourKawaUser(HttpUser):
                 min(3, len(self.product_ids))
             )
             
-            # 🔧 CORRECTION: Construire payload complet avec tous les champs requis
+            # CORRECTION: Construire payload complet avec tous les champs requis
             client_info = self.client_details.get(client_id, {})
             
             total_amount = 0
@@ -245,7 +245,7 @@ class BuyYourKawaUser(HttpUser):
     @task(1)
     def get_analytics(self):
         """Test GET /analytics - endpoint lourd à tester (CORRIGÉ: paramètres étendus)"""
-        # 🔧 CORRECTION: Paramètres plus complets
+        # CORRECTION: Paramètres plus complets
         params = {
             "period": random.choice(["daily", "weekly", "monthly"]),
             "start_date": "2024-01-01",
@@ -306,10 +306,10 @@ def run_test_scenario(scenario="normal"):
     return scenarios.get(scenario, scenarios["normal"])
 
 
-# 📊 CORRECTIONS APPLIQUÉES :
-# ✅ POST /clients : Accepte maintenant HTTP 200 (pas seulement 201)
-# ✅ POST /products : Accepte maintenant HTTP 200 (pas seulement 201)  
-# ✅ POST /orders : Payload complet avec client_name, unit_price, total_price, product_name
-# ✅ GET /analytics : Paramètres étendus avec start_date et end_date
-# ✅ Cache des détails clients/produits pour éviter les requêtes répétées
-# ✅ Gestion d'erreurs améliorée avec messages détaillés
+# CORRECTIONS APPLIQUÉES :
+# POST /clients : Accepte maintenant HTTP 200 (pas seulement 201)
+# POST /products : Accepte maintenant HTTP 200 (pas seulement 201)  
+# POST /orders : Payload complet avec client_name, unit_price, total_price, product_name
+# GET /analytics : Paramètres étendus avec start_date et end_date
+# Cache des détails clients/produits pour éviter les requêtes répétées
+# Gestion d'erreurs améliorée avec messages détaillés

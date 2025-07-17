@@ -4,19 +4,19 @@ param(
     [switch]$SkipApiCheck = $false
 )
 
-Write-Host "🧪 Lancement des tests de validation et normaux" -ForegroundColor Green
+Write-Host "Lancement des tests de validation et normaux" -ForegroundColor Green
 Write-Host "Type de test: $TestType" -ForegroundColor Cyan
 
 # Vérifier que l'API est démarrée
 if (-not $SkipApiCheck) {
-    Write-Host "🔍 Vérification de l'API..." -ForegroundColor Yellow
+    Write-Host "Vérification de l'API..." -ForegroundColor Yellow
     try {
         $response = Invoke-WebRequest -Uri "http://localhost:8000/docs" -TimeoutSec 5
         if ($response.StatusCode -eq 200) {
-            Write-Host "✅ API BuyYourKawa accessible" -ForegroundColor Green
+            Write-Host "API BuyYourKawa accessible" -ForegroundColor Green
         }
     } catch {
-        Write-Host "❌ API non accessible. Démarrez l'API avec: python main.py" -ForegroundColor Red
+        Write-Host "API non accessible. Démarrez l'API avec: python main.py" -ForegroundColor Red
         exit 1
     }
 }
@@ -27,7 +27,7 @@ $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 function Invoke-K6Tests {
     param($TestName, $ScriptPath)
     
-    Write-Host "🔧 Exécution test k6: $TestName..." -ForegroundColor Yellow
+    Write-Host "Exécution test k6: $TestName..." -ForegroundColor Yellow
     
     if (Test-Path $ScriptPath) {
         try {
@@ -42,9 +42,9 @@ function Invoke-K6Tests {
             # Exécuter k6 avec sortie JSON et CSV
             k6 run --out json="$outputJson" --out csv="$outputCsv" $ScriptPath
             
-            Write-Host "✅ Test k6 $TestName terminé" -ForegroundColor Green
-            Write-Host "📊 Résultats JSON: $outputJson" -ForegroundColor Cyan
-            Write-Host "📊 Résultats CSV: $outputCsv" -ForegroundColor Cyan
+            Write-Host "Test k6 $TestName terminé" -ForegroundColor Green
+            Write-Host "Résultats JSON: $outputJson" -ForegroundColor Cyan
+            Write-Host "Résultats CSV: $outputCsv" -ForegroundColor Cyan
             
             return @{
                 Success = $true
@@ -52,11 +52,11 @@ function Invoke-K6Tests {
                 CsvPath = $outputCsv
             }
         } catch {
-            Write-Host "❌ Erreur k6 $TestName : $_" -ForegroundColor Red
+            Write-Host "Erreur k6 $TestName : $_" -ForegroundColor Red
             return @{ Success = $false }
         }
     } else {
-        Write-Host "❌ Script k6 non trouvé: $ScriptPath" -ForegroundColor Red
+        Write-Host "Script k6 non trouvé: $ScriptPath" -ForegroundColor Red
         return @{ Success = $false }
     }
 }
@@ -65,7 +65,7 @@ function Invoke-K6Tests {
 function Invoke-ArtilleryTests {
     param($TestName, $ScriptPath)
     
-    Write-Host "🔧 Exécution test Artillery: $TestName..." -ForegroundColor Yellow
+    Write-Host "Exécution test Artillery: $TestName..." -ForegroundColor Yellow
     
     if (Test-Path $ScriptPath) {
         try {
@@ -83,9 +83,9 @@ function Invoke-ArtilleryTests {
             # Générer rapport HTML
             artillery report --output $outputHtml $outputJson
             
-            Write-Host "✅ Test Artillery $TestName terminé" -ForegroundColor Green
-            Write-Host "📊 Résultats JSON: $outputJson" -ForegroundColor Cyan
-            Write-Host "📈 Rapport HTML: $outputHtml" -ForegroundColor Cyan
+            Write-Host "Test Artillery $TestName terminé" -ForegroundColor Green
+            Write-Host "Résultats JSON: $outputJson" -ForegroundColor Cyan
+            Write-Host "Rapport HTML: $outputHtml" -ForegroundColor Cyan
             
             return @{
                 Success = $true
@@ -93,11 +93,11 @@ function Invoke-ArtilleryTests {
                 HtmlPath = $outputHtml
             }
         } catch {
-            Write-Host "❌ Erreur Artillery $TestName : $_" -ForegroundColor Red
+            Write-Host "Erreur Artillery $TestName : $_" -ForegroundColor Red
             return @{ Success = $false }
         }
     } else {
-        Write-Host "❌ Script Artillery non trouvé: $ScriptPath" -ForegroundColor Red
+        Write-Host "Script Artillery non trouvé: $ScriptPath" -ForegroundColor Red
         return @{ Success = $false }
     }
 }
@@ -106,7 +106,7 @@ function Invoke-ArtilleryTests {
 function New-ComparisonReport {
     param($K6Results, $ArtilleryResults, $TestType)
     
-    Write-Host "📈 Génération du rapport de comparaison..." -ForegroundColor Yellow
+    Write-Host "Génération du rapport de comparaison..." -ForegroundColor Yellow
     
     $reportPath = "comparison-results\comparison-$TestType-$timestamp.md"
     
@@ -127,7 +127,7 @@ function New-ComparisonReport {
     
     foreach ($test in $K6Results.Keys) {
         $result = $K6Results[$test]
-        $status = if ($result.Success) { "✅ RÉUSSI" } else { "❌ ÉCHOUÉ" }
+        $status = if ($result.Success) { "RÉUSSI" } else { "ÉCHOUÉ" }
         $report += @"
 
 #### $test
@@ -145,7 +145,7 @@ function New-ComparisonReport {
     
     foreach ($test in $ArtilleryResults.Keys) {
         $result = $ArtilleryResults[$test]
-        $status = if ($result.Success) { "✅ RÉUSSI" } else { "❌ ÉCHOUÉ" }
+        $status = if ($result.Success) { "RÉUSSI" } else { "ÉCHOUÉ" }
         $report += @"
 
 #### $test
@@ -184,7 +184,7 @@ function New-ComparisonReport {
 "@
     
     $report | Out-File -FilePath $reportPath -Encoding UTF8
-    Write-Host "✅ Rapport de comparaison créé: $reportPath" -ForegroundColor Green
+    Write-Host "Rapport de comparaison créé: $reportPath" -ForegroundColor Green
     
     return $reportPath
 }
@@ -194,7 +194,7 @@ $k6Results = @{}
 $artilleryResults = @{}
 
 if ($TestType -eq "validation" -or $TestType -eq "all") {
-    Write-Host "🧪 === TESTS DE VALIDATION ===" -ForegroundColor Magenta
+    Write-Host "=== TESTS DE VALIDATION ===" -ForegroundColor Magenta
     
     # Tests de validation k6
     $k6Results["validation"] = Invoke-K6Tests "validation" "k6-tests\validation-test.js"
@@ -206,7 +206,7 @@ if ($TestType -eq "validation" -or $TestType -eq "all") {
 }
 
 if ($TestType -eq "normal" -or $TestType -eq "all") {
-    Write-Host "📊 === TESTS NORMAUX ===" -ForegroundColor Magenta
+    Write-Host "=== TESTS NORMAUX ===" -ForegroundColor Magenta
     
     # Tests normaux k6
     $k6Results["basic"] = Invoke-K6Tests "basic" "k6-tests\basic-test.js"
@@ -228,13 +228,13 @@ if ($k6Results.Count -gt 0 -or $artilleryResults.Count -gt 0) {
     $reportPath = New-ComparisonReport $k6Results $artilleryResults $TestType
     
     Write-Host ""
-    Write-Host "🎉 Tous les tests terminés!" -ForegroundColor Green
-    Write-Host "📊 Rapport de comparaison: $reportPath" -ForegroundColor Cyan
+    Write-Host "Tous les tests terminés!" -ForegroundColor Green
+    Write-Host "Rapport de comparaison: $reportPath" -ForegroundColor Cyan
     Write-Host ""
-    Write-Host "📁 Résultats disponibles dans:" -ForegroundColor Yellow
+    Write-Host "Résultats disponibles dans:" -ForegroundColor Yellow
     Write-Host "   - k6-tests\results\" -ForegroundColor White
     Write-Host "   - artillery-tests\results\" -ForegroundColor White
     Write-Host "   - comparison-results\" -ForegroundColor White
 } else {
-    Write-Host "❌ Aucun test exécuté" -ForegroundColor Red
+    Write-Host "Aucun test exécuté" -ForegroundColor Red
 }

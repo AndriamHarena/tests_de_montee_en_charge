@@ -21,16 +21,16 @@
 ### Locust (Référence Actuelle)
 
 #### Avantages
-- ✅ **Interface web intuitive** : Monitoring temps réel
-- ✅ **Python natif** : Intégration facile avec l'écosystème Python
-- ✅ **Flexibilité maximale** : Scénarios complexes possibles
-- ✅ **Distribution** : Scalabilité horizontale native
-- ✅ **Debugging** : Logs détaillés et gestion d'erreurs
+- **Interface web intuitive** : Monitoring temps réel
+- **Python natif** : Intégration facile avec l'écosystème Python
+- **Flexibilité maximale** : Scénarios complexes possibles
+- **Distribution** : Scalabilité horizontale native
+- **Debugging** : Logs détaillés et gestion d'erreurs
 
 #### Inconvénients
-- ❌ **Performance** : Plus lent que k6/Gatling pour gros volumes
-- ❌ **Consommation mémoire** : Plus élevée que les alternatives
-- ❌ **Courbe d'apprentissage** : Nécessite connaissances Python
+- **Performance** : Plus lent que k6/Gatling pour gros volumes
+- **Consommation mémoire** : Plus élevée que les alternatives
+- **Courbe d'apprentissage** : Nécessite connaissances Python
 
 #### Métriques Typiques
 ```
@@ -45,16 +45,16 @@ Mémoire utilisée: 150-200MB
 ### k6 (Alternative Performante)
 
 #### Avantages
-- ✅ **Performance exceptionnelle** : Écrit en Go, très rapide
-- ✅ **Faible consommation** : Ressources minimales
-- ✅ **JavaScript** : Syntaxe familière pour développeurs web
-- ✅ **Métriques riches** : Exportation vers systèmes monitoring
-- ✅ **CI/CD friendly** : Intégration pipeline native
+- **Performance exceptionnelle** : Écrit en Go, très rapide
+- **Faible consommation** : Ressources minimales
+- **JavaScript** : Syntaxe familière pour développeurs web
+- **Métriques riches** : Exportation vers systèmes monitoring
+- **CI/CD friendly** : Intégration pipeline native
 
 #### Inconvénients
-- ❌ **Pas d'interface web** : CLI uniquement
-- ❌ **Visualisation limitée** : Nécessite outils externes
-- ❌ **Courbe d'apprentissage** : API spécifique à maîtriser
+- **Pas d'interface web** : CLI uniquement
+- **Visualisation limitée** : Nécessite outils externes
+- **Courbe d'apprentissage** : API spécifique à maîtriser
 
 #### Métriques Typiques
 ```
@@ -69,16 +69,16 @@ Mémoire utilisée: 50-80MB
 ### Artillery (Simplicité)
 
 #### Avantages
-- ✅ **Configuration YAML** : Très simple à configurer
-- ✅ **Courbe d'apprentissage faible** : Idéal pour débuter
-- ✅ **Rapports HTML** : Génération automatique
-- ✅ **Plugins** : Extensibilité via plugins
-- ✅ **CI/CD** : Intégration facile
+- **Configuration YAML** : Très simple à configurer
+- **Courbe d'apprentissage faible** : Idéal pour débuter
+- **Rapports HTML** : Génération automatique
+- **Plugins** : Extensibilité via plugins
+- **CI/CD** : Intégration facile
 
 #### Inconvénients
-- ❌ **Performance limitée** : Moins adapté aux gros volumes
-- ❌ **Flexibilité réduite** : Scénarios complexes difficiles
-- ❌ **Debugging** : Moins d'options de débogage
+- **Performance limitée** : Moins adapté aux gros volumes
+- **Flexibilité réduite** : Scénarios complexes difficiles
+- **Debugging** : Moins d'options de débogage
 
 #### Métriques Typiques
 ```
@@ -109,7 +109,7 @@ Mémoire utilisée: 100-150MB
 ## Analyse par Cas d'Usage
 
 ### Projet BuyYourKawa (PME Coffee Shop)
-**Recommandation : Locust** 🏆
+**Recommandation : Locust**
 - Interface web essentielle pour démonstrations
 - Flexibilité Python pour évolutions futures
 - Performance suffisante pour le volume cible (<300 users)
@@ -173,7 +173,7 @@ Mémoire utilisée: 100-150MB
 - **Locust** pour développement et démonstrations
 
 ### Prochaines Étapes
-1. ✅ Exécuter les tests pratiques avec les 3 outils
-2. ✅ Comparer les résultats sur votre environnement
-3. ✅ Valider les performances avec l'API BuyYourKawa
-4. ✅ Documenter les résultats spécifiques à votre contexte
+1. Exécuter les tests pratiques avec les 3 outils
+2. Comparer les résultats sur votre environnement
+3. Valider les performances avec l'API BuyYourKawa
+4. Documenter les résultats spécifiques à votre contexte

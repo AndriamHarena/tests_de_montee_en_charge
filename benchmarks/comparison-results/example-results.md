@@ -1,19 +1,19 @@
 # Exemple de Résultats - Tests de Validation
 
-## 📊 Résultats k6 (validation-test.js)
+## Résultats k6 (validation-test.js)
 
 ### Métriques Principales
 ```
-✅ RAPPORT DE VALIDATION k6 - BuyYourKawa
+RAPPORT DE VALIDATION k6 - BuyYourKawa
 =========================================
 
-📊 Métriques Principales:
+Métriques Principales:
 - Requêtes totales: 450
 - Taux d'échec: 2.22%
 - Temps réponse P95: 856ms
 - Taux de succès: 97.78%
 
-✅ Validation: RÉUSSIE
+Validation: RÉUSSIE
 ```
 
 ### Détails par Endpoint
@@ -25,7 +25,7 @@
 | POST /products | 75 | 97% | 734ms | 2 |
 | GET /analytics | 75 | 100% | 456ms | 0 |
 
-## 📊 Résultats Artillery (validation-test.yml)
+## Résultats Artillery (validation-test.yml)
 
 ### Résumé Global
 ```
@@ -56,7 +56,7 @@ Summary report @ 19:45:23(+0200)
 | Validation stable | 60s | 5/s | 8.1 | 2.3% |
 | Descente | 30s | 1/s | 3.4 | 0% |
 
-## 🔄 Comparaison k6 vs Artillery
+## Comparaison k6 vs Artillery
 
 ### Performance
 - **k6** : Plus rapide (450 req vs 440 req)
@@ -73,18 +73,18 @@ Summary report @ 19:45:23(+0200)
 - **Artillery** : Métriques standard suffisantes
 - **Exportation** : k6 supporte plus de formats
 
-## 📈 Analyse des Résultats
+## Analyse des Résultats
 
 ### Points Positifs
-✅ **Taux de succès élevé** (>95%) pour les deux outils
-✅ **Temps de réponse acceptable** (<1000ms P95)
-✅ **Stabilité** : Pas de dégradation significative
-✅ **Authentification** : Fonctionne correctement
+**Taux de succès élevé** (>95%) pour les deux outils
+**Temps de réponse acceptable** (<1000ms P95)
+**Stabilité** : Pas de dégradation significative
+**Authentification** : Fonctionne correctement
 
 ### Points d'Amélioration
-⚠️ **Création clients/produits** : Quelques erreurs sporadiques
-⚠️ **Temps de réponse** : Pic à 1234ms sur certaines requêtes
-⚠️ **Gestion erreurs** : 2-3% d'échecs attendus
+**Création clients/produits** : Quelques erreurs sporadiques
+**Temps de réponse** : Pic à 1234ms sur certaines requêtes
+**Gestion erreurs** : 2-3% d'échecs attendus
 
 ### Recommandations
 1. **Optimiser** les endpoints POST (clients/products)
@@ -92,15 +92,15 @@ Summary report @ 19:45:23(+0200)
 3. **Implémenter** le cache Redis pour améliorer les performances
 4. **Valider** la gestion des erreurs 401/422
 
-## 🎯 Validation des Seuils
+## Validation des Seuils
 
 | Métrique | Seuil | k6 | Artillery | Statut |
 |----------|-------|----|-----------|----|
-| Taux d'échec | <5% | 2.22% | 2.27% | ✅ |
-| Temps P95 | <1000ms | 856ms | 789ms | ✅ |
-| Taux succès | >95% | 97.78% | 97.73% | ✅ |
+| Taux d'échec | <5% | 2.22% | 2.27% | OK |
+| Temps P95 | <1000ms | 856ms | 789ms | OK |
+| Taux succès | >95% | 97.78% | 97.73% | OK |
 
-## 📋 Conclusion
+## Conclusion
 
 ### Pour BuyYourKawa
 - **API stable** et prête pour la production

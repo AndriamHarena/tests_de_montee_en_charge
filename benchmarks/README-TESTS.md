@@ -1,6 +1,6 @@
 # Guide d'Exécution des Tests - Phase 6 Benchmarks
 
-## 🚀 Démarrage Rapide
+## Démarrage Rapide
 
 ### Option 1: Démarrage Automatique (Recommandé)
 ```powershell
@@ -24,7 +24,7 @@ python main.py
 .\run-validation-tests.ps1 -TestType validation
 ```
 
-## 📊 Types de Tests Disponibles
+## Types de Tests Disponibles
 
 ### Tests de Validation
 - **Objectif** : Vérifier le bon fonctionnement de l'API
@@ -50,7 +50,7 @@ python main.py
   - `k6-tests/stress-test.js`
   - `artillery-tests/stress-test.yml`
 
-## 📁 Structure des Résultats
+## Structure des Résultats
 
 ```
 benchmarks/
@@ -69,7 +69,7 @@ benchmarks/
     └── performance-comparison.md
 ```
 
-## 🔧 Commandes Spécifiques
+## Commandes Spécifiques
 
 ### Tests k6 Uniquement
 ```powershell
@@ -89,7 +89,7 @@ artillery run --output artillery-tests/results/validation-manual.json artillery-
 artillery report --output artillery-tests/results/validation-manual.html artillery-tests/results/validation-manual.json
 ```
 
-## 📈 Analyse des Résultats
+## Analyse des Résultats
 
 ### Métriques k6 (JSON/CSV)
 - `http_req_duration` : Temps de réponse
@@ -103,24 +103,24 @@ artillery report --output artillery-tests/results/validation-manual.html artille
 - **Error Rate** : Pourcentage d'erreurs
 - **Scenarios** : Détail par scénario
 
-## 🎯 Seuils de Performance
+## Seuils de Performance
 
 ### Tests de Validation
-- ✅ **Taux d'échec** : < 5%
-- ✅ **Temps réponse P95** : < 1000ms
-- ✅ **Taux de succès** : > 95%
+- **Taux d'échec** : < 5%
+- **Temps réponse P95** : < 1000ms
+- **Taux de succès** : > 95%
 
 ### Tests Normaux
-- ✅ **Taux d'échec** : < 3%
-- ✅ **Temps réponse P95** : < 800ms
-- ✅ **Débit** : > 20 req/s
+- **Taux d'échec** : < 3%
+- **Temps réponse P95** : < 800ms
+- **Débit** : > 20 req/s
 
 ### Tests de Stress
-- ✅ **Taux d'échec** : < 10%
-- ✅ **Temps réponse P95** : < 1500ms
-- ✅ **Stabilité** : Pas de dégradation brutale
+- **Taux d'échec** : < 10%
+- **Temps réponse P95** : < 1500ms
+- **Stabilité** : Pas de dégradation brutale
 
-## 🐛 Dépannage
+## Dépannage
 
 ### Problèmes Courants
 
@@ -151,7 +151,7 @@ npm install -g artillery@latest
 - Vérifier que l'utilisateur admin existe
 - Credentials par défaut : `admin` / `secret123`
 
-## 📋 Checklist Avant Tests
+## Checklist Avant Tests
 
 - [ ] Python installé et fonctionnel
 - [ ] API BuyYourKawa démarrée sur port 8000
@@ -160,7 +160,7 @@ npm install -g artillery@latest
 - [ ] Dossiers results/ créés
 - [ ] Aucun autre processus sur port 8000
 
-## 🔄 Workflow Recommandé
+## Workflow Recommandé
 
 1. **Installation** : `.\install-tools.ps1`
 2. **Test rapide** : `.\start-api-and-test.ps1 -TestType validation`
@@ -169,7 +169,7 @@ npm install -g artillery@latest
 5. **Comparaison** : Lire `comparison-results/comparison-*.md`
 6. **Documentation** : Mettre à jour le plan d'action
 
-## 📞 Support
+## Support
 
 En cas de problème :
 1. Vérifier les logs de l'API

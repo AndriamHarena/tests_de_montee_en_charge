@@ -28,7 +28,7 @@ export function setup() {
   // Test de connectivité
   const healthCheck = http.get(`${BASE_URL}/docs`);
   if (healthCheck.status !== 200) {
-    console.log('❌ API non disponible');
+    console.log('API non disponible');
     return { apiAvailable: false };
   }
   
@@ -168,7 +168,7 @@ export default function(data) {
 }
 
 export function teardown(data) {
-  console.log('🏁 Test de stress k6 terminé');
+  console.log('Test de stress k6 terminé');
   console.log(`API disponible: ${data.apiAvailable}`);
   console.log(`Token utilisé: ${data.token ? 'Oui' : 'Non'}`);
 }

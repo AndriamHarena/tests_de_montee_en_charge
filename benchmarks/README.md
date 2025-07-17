@@ -24,37 +24,37 @@
 
 ### Locust (Choix Actuel)
 **Pourquoi adapté pour BuyYourKawa :**
-- ✅ **Interface web intuitive** : Parfait pour visualiser les tests en temps réel
-- ✅ **Python** : Langage familier, facile à maintenir
-- ✅ **Scalabilité** : Peut distribuer la charge sur plusieurs machines
-- ✅ **Flexibilité** : Scripts personnalisables pour scénarios complexes
-- ✅ **Communauté active** : Documentation riche et support
+- **Interface web intuitive** : Parfait pour visualiser les tests en temps réel
+- **Python** : Langage familier, facile à maintenir
+- **Scalabilité** : Peut distribuer la charge sur plusieurs machines
+- **Flexibilité** : Scripts personnalisables pour scénarios complexes
+- **Communauté active** : Documentation riche et support
 
 **Limitations :**
-- ❌ Performance moindre comparé à k6/Gatling pour tests très massifs
-- ❌ Consommation mémoire plus élevée que k6
+- Performance moindre comparé à k6/Gatling pour tests très massifs
+- Consommation mémoire plus élevée que k6
 
 ### k6 (Alternative Performante)
 **Avantages :**
-- ✅ **Performance exceptionnelle** : Écrit en Go, très rapide
-- ✅ **Scripting JavaScript** : Syntaxe familière pour développeurs web
-- ✅ **Métriques détaillées** : Exportation vers InfluxDB, Prometheus
-- ✅ **CI/CD friendly** : Intégration facile dans pipelines
+- **Performance exceptionnelle** : Écrit en Go, très rapide
+- **Scripting JavaScript** : Syntaxe familière pour développeurs web
+- **Métriques détaillées** : Exportation vers InfluxDB, Prometheus
+- **CI/CD friendly** : Intégration facile dans pipelines
 
 **Inconvénients :**
-- ❌ **Pas d'interface web native** : Uniquement CLI
-- ❌ **Visualisation limitée** : Nécessite outils externes (Grafana)
+- **Pas d'interface web native** : Uniquement CLI
+- **Visualisation limitée** : Nécessite outils externes (Grafana)
 
 ### Artillery (Simplicité)
 **Avantages :**
-- ✅ **Configuration YAML** : Très simple à configurer
-- ✅ **Courbe d'apprentissage faible** : Idéal pour débuter
-- ✅ **Plugins** : Extensible avec des plugins
-- ✅ **Rapports HTML** : Génération automatique de rapports
+- **Configuration YAML** : Très simple à configurer
+- **Courbe d'apprentissage faible** : Idéal pour débuter
+- **Plugins** : Extensible avec des plugins
+- **Rapports HTML** : Génération automatique de rapports
 
 **Inconvénients :**
-- ❌ **Performance limitée** : Moins adapté aux gros volumes
-- ❌ **Moins de flexibilité** : Comparé à Locust/k6 pour scénarios complexes
+- **Performance limitée** : Moins adapté aux gros volumes
+- **Moins de flexibilité** : Comparé à Locust/k6 pour scénarios complexes
 
 ---
 

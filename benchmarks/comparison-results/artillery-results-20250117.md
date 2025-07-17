@@ -3,7 +3,7 @@
 **Durée**: 2 minutes 1 seconde  
 **Outil**: Artillery 2.0.23
 
-## 📊 Résultats Globaux
+## Résultats Globaux
 
 ### Métriques Principales
 - **Requêtes totales**: 528
@@ -26,7 +26,7 @@
 - **HTTP 422**: 69 (13%) - Erreurs de validation (attendues)
 - **Erreurs de capture**: 321 - Liées aux tests de validation d'erreurs
 
-## 🎯 Analyse par Scénario
+## Analyse par Scénario
 
 ### Scénario 1: Validation Complète API
 - **Utilisateurs créés**: 321
@@ -36,10 +36,10 @@
 ### Scénario 2: Validation Gestion Erreurs  
 - **Utilisateurs créés**: 69
 - **Utilisateurs complétés**: 69 (100%)
-- **Statut**: ✅ Succès complet
+- **Statut**: Succès complet
 - **Objectif**: Tester les erreurs 422
 
-## 📈 Métriques par Endpoint
+## Métriques par Endpoint
 
 ### Auth-Validation
 - **Codes 401**: 321 (attendu)
@@ -65,16 +65,16 @@
 - **P95**: 4ms
 - **P99**: 5ms
 
-## ✅ Validation des Seuils
+## Validation des Seuils
 
 | Métrique | Seuil Cible | Résultat | Statut |
 |----------|-------------|----------|--------|
-| Temps P95 | <1000ms | 7ms | ✅ EXCELLENT |
-| Temps P99 | <1500ms | 34.8ms | ✅ EXCELLENT |
-| Temps moyen | <500ms | 4.3ms | ✅ EXCELLENT |
-| Débit | >1 req/s | 3 req/s | ✅ BON |
+| Temps P95 | <1000ms | 7ms | EXCELLENT |
+| Temps P99 | <1500ms | 34.8ms | EXCELLENT |
+| Temps moyen | <500ms | 4.3ms | EXCELLENT |
+| Débit | >1 req/s | 3 req/s | BON |
 
-## 🔍 Observations
+## Observations
 
 ### Points Forts
 - **Performance exceptionnelle** : Temps de réponse très rapides
@@ -87,7 +87,7 @@
 - **Débit modéré** : 3 req/s (acceptable pour validation)
 - **Captures échouées** : 321 (liées aux assertions sur les erreurs)
 
-## 🎯 Recommandations
+## Recommandations
 
 ### Optimisations Possibles
 1. **Améliorer les assertions** dans les tests Artillery
@@ -101,9 +101,9 @@
 3. **Comparaison avec Locust** pour validation croisée
 4. **Installation k6** pour comparaison complète
 
-## 📋 Conclusion
+## Conclusion
 
-### Verdict Global: ✅ VALIDATION RÉUSSIE
+### Verdict Global: VALIDATION RÉUSSIE
 
 L'API BuyYourKawa démontre d'**excellentes performances** lors des tests de validation :
 - Temps de réponse très rapides (4.3ms moyenne)

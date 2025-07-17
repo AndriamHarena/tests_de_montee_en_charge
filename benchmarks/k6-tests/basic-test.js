@@ -46,10 +46,10 @@ export function setup() {
   
   if (authResponse.status === 200) {
     const token = JSON.parse(authResponse.body).access_token;
-    console.log('✅ Authentification réussie');
+    console.log('Authentification réussie');
     return { token: token };
   } else {
-    console.log('❌ Échec authentification');
+    console.log('Échec authentification');
     return { token: null };
   }
 }
@@ -72,7 +72,7 @@ export default function(data) {
   
   if (!clientSuccess) {
     errorRate.add(1);
-    console.log(`❌ Erreur création client: ${clientResponse.status}`);
+    console.log(`Erreur création client: ${clientResponse.status}`);
   }
 
   sleep(0.5);
@@ -133,6 +133,6 @@ export default function(data) {
 }
 
 export function teardown(data) {
-  console.log('🏁 Test k6 terminé');
+  console.log('Test k6 terminé');
   console.log(`Token utilisé: ${data.token ? 'Oui' : 'Non'}`);
 }
