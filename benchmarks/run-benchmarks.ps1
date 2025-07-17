@@ -25,7 +25,7 @@ if (-not $SkipApiCheck) {
 $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 
 # Fonction pour exécuter k6
-function Run-K6Tests {
+function Invoke-K6Tests {
     param($TestType)
     
     Write-Host "Exécution des tests k6 ($TestType)..." -ForegroundColor Yellow
@@ -47,7 +47,7 @@ function Run-K6Tests {
 }
 
 # Fonction pour exécuter Artillery
-function Run-ArtilleryTests {
+function Invoke-ArtilleryTests {
     param($TestType)
     
     Write-Host "Exécution des tests Artillery ($TestType)..." -ForegroundColor Yellow
@@ -74,7 +74,7 @@ function Run-ArtilleryTests {
 }
 
 # Fonction pour exécuter Locust (référence)
-function Run-LocustTests {
+function Invoke-LocustTests {
     param($TestType)
     
     Write-Host "Exécution des tests Locust ($TestType)..." -ForegroundColor Yellow
@@ -106,25 +106,25 @@ function Run-LocustTests {
 # Exécution selon les paramètres
 switch ($Tool.ToLower()) {
     "k6" {
-        Run-K6Tests $Test
+        Invoke-K6Tests $Test
     }
     "artillery" {
-        Run-ArtilleryTests $Test
+        Invoke-ArtilleryTests $Test
     }
     "locust" {
-        Run-LocustTests $Test
+        Invoke-LocustTests $Test
     }
     "all" {
         Write-Host "Exécution de tous les outils..." -ForegroundColor Magenta
         
         # Séquence d'exécution avec pauses
-        Run-K6Tests $Test
+        Invoke-K6Tests $Test
         Start-Sleep -Seconds 10
         
-        Run-ArtilleryTests $Test
+        Invoke-ArtilleryTests $Test
         Start-Sleep -Seconds 10
         
-        Run-LocustTests $Test
+        Invoke-LocustTests $Test
         
         Write-Host "Benchmarks terminés!" -ForegroundColor Green
         Write-Host "Consultez les dossiers results/ pour les résultats détaillés" -ForegroundColor Cyan
