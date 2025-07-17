@@ -1,0 +1,205 @@
+config:
+  target: 'http://localhost:8000'
+  phases:
+    - duration: 30
+      arrivalRate: 2
+      name: "Montée douce"
+    - duration: 60
+      arrivalRate: 5
+      name: "Validation stable"
+    - duration: 30
+      arrivalRate: 1
+      name: "Descente"
+  
+  # Seuils de validation
+  ensure:
+    p95: 1000
+    p99: 1500
+    maxErrorRate: 5
+  
+  # Variables pour les tests
+  variables:
+    admin_username: "admin"
+    admin_password: "secret123"
+  
+  # Plugins pour métriques avancées
+  plugins:
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+    
+  # Payload pour les tests
+  payload:
+    path: "test-data.csv"
+    fields:
+      - "client_name"
+      - "client_email"
+      - "product_name"
+      - "product_category"
+
+scenarios:
+  - name: "Validation complète API"
+    weight: 100
+    flow:
+      # Étape 1: Authentification
+      - post:
+          url: "/token"
+          headers:
+            Content-Type: "application/x-www-form-urlencoded"
+          form:
+            username: "{{ admin_username }}"
+            password: "{{ admin_password }}"
+          capture:
+            - json: "$.access_token"
+              as: "auth_token"
+          expect:
+            - statusCode: 200
+            - hasProperty: "access_token"
+            - contentType: json
+          name: "Auth-Validation"
+      
+      # Étape 2: Validation création client
+      - post:
+          url: "/clients"
+          headers:
+            Content-Type: "application/json"
+            Authorization: "Bearer {{ auth_token }}"
+          json:
+            name: "{{ client_name }}-validation-{{ $randomString() }}"
+            email: "validation-{{ $randomString() }}@test.com"
+            phone: "+33{{ $randomInt(100000000, 999999999) }}"
+          capture:
+            - json: "$.id"
+              as: "client_id"
+          expect:
+            - statusCode: [200, 201]
+            - hasProperty: "id"
+            - hasProperty: "name"
+            - hasProperty: "email"
+          name: "Client-Creation-Validation"
+      
+      # Étape 3: Validation récupération client créé
+      - get:
+          url: "/clients/{{ client_id }}"
+          headers:
+            Authorization: "Bearer {{ auth_token }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "id"
+            - contentType: json
+          name: "Client-Get-Validation"
+      
+      # Étape 4: Validation liste clients
+      - get:
+          url: "/clients"
+          headers:
+            Authorization: "Bearer {{ auth_token }}"
+          expect:
+            - statusCode: 200
+            - contentType: json
+          name: "Clients-List-Validation"
+      
+      # Étape 5: Validation création produit
+      - post:
+          url: "/products"
+          headers:
+            Content-Type: "application/json"
+            Authorization: "Bearer {{ auth_token }}"
+          json:
+            name: "{{ product_name }}-validation-{{ $randomString() }}"
+            price: "{{ $randomInt(5, 50) }}"
+            category: "{{ product_category }}"
+            description: "Produit de validation {{ $randomString() }}"
+          capture:
+            - json: "$.id"
+              as: "product_id"
+          expect:
+            - statusCode: [200, 201]
+            - hasProperty: "id"
+            - hasProperty: "name"
+            - hasProperty: "price"
+          name: "Product-Creation-Validation"
+      
+      # Étape 6: Validation liste produits
+      - get:
+          url: "/products"
+          headers:
+            Authorization: "Bearer {{ auth_token }}"
+          expect:
+            - statusCode: 200
+            - contentType: json
+          name: "Products-List-Validation"
+      
+      # Étape 7: Validation création commande
+      - post:
+          url: "/orders"
+          headers:
+            Content-Type: "application/json"
+            Authorization: "Bearer {{ auth_token }}"
+          json:
+            client_id: "{{ client_id }}"
+            items:
+              - product_id: "{{ product_id }}"
+                quantity: 2
+                unit_price: 15.50
+            total_amount: 31.00
+            status: "pending"
+          capture:
+            - json: "$.id"
+              as: "order_id"
+          expect:
+            - statusCode: [200, 201]
+            - hasProperty: "id"
+            - hasProperty: "client_id"
+            - hasProperty: "total_amount"
+          name: "Order-Creation-Validation"
+      
+      # Étape 8: Validation analytics
+      - get:
+          url: "/analytics"
+          headers:
+            Authorization: "Bearer {{ auth_token }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "total_clients"
+            - hasProperty: "total_products"
+            - contentType: json
+          name: "Analytics-Validation"
+      
+      # Pause entre les itérations
+      - think: 1
+
+  # Scénario de validation des erreurs
+  - name: "Validation gestion erreurs"
+    weight: 20
+    flow:
+      # Test authentification invalide
+      - post:
+          url: "/token"
+          headers:
+            Content-Type: "application/x-www-form-urlencoded"
+          form:
+            username: "invalid_user"
+            password: "invalid_pass"
+          expect:
+            - statusCode: 401
+          name: "Auth-Error-Validation"
+      
+      # Test accès sans token
+      - get:
+          url: "/clients"
+          expect:
+            - statusCode: 401
+          name: "Unauthorized-Access-Validation"
+      
+      # Test création client invalide
+      - post:
+          url: "/clients"
+          headers:
+            Content-Type: "application/json"
+            Authorization: "Bearer invalid_token"
+          json:
+            name: ""
+            email: "invalid-email"
+          expect:
+            - statusCode: [401, 422]
+          name: "Invalid-Client-Validation"

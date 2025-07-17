@@ -1,0 +1,263 @@
+{
+  "project_info": {
+    "name": "BuyYourKawa API Load Testing",
+    "version": "1.0",
+    "created_date": "2025-07-17",
+    "description": "Realistic load testing scenarios based on coffee shop industry benchmarks"
+  },
+  "baseline_metrics": {
+    "daily_unique_visitors": 2500,
+    "monthly_unique_visitors": 45000,
+    "conversion_rate": 0.045,
+    "average_session_duration_minutes": 7,
+    "peak_hour_multiplier": 2.0,
+    "campaign_boost_multiplier": 1.5
+  },
+  "user_profiles": {
+    "coffee_shop_manager": {
+      "percentage": 60,
+      "sessions_per_day": 4,
+      "session_duration_minutes": 10,
+      "peak_hours": ["09:00-11:00", "14:00-16:00"],
+      "actions_per_session": {
+        "token_requests": 1,
+        "client_list_requests": 3,
+        "client_detail_requests": 4,
+        "client_create_requests": 1,
+        "client_update_requests": 1
+      }
+    },
+    "barista_employee": {
+      "percentage": 30,
+      "sessions_per_day": 2,
+      "session_duration_minutes": 4,
+      "peak_hours": ["08:00-10:00", "16:00-18:00"],
+      "actions_per_session": {
+        "token_requests": 1,
+        "client_list_requests": 2,
+        "client_detail_requests": 3,
+        "client_update_requests": 1
+      }
+    },
+    "manager_analyst": {
+      "percentage": 10,
+      "sessions_per_day": 1,
+      "session_duration_minutes": 20,
+      "peak_hours": ["10:00-12:00"],
+      "actions_per_session": {
+        "token_requests": 1,
+        "client_list_requests": 5,
+        "client_detail_requests": 8,
+        "export_requests": 2
+      }
+    }
+  },
+  "load_scenarios": {
+    "scenario_1_normal_load": {
+      "name": "Normal Business Load",
+      "description": "Typical daily usage pattern",
+      "users_concurrent": 25,
+      "users_total": 200,
+      "duration_minutes": 30,
+      "load_pattern": {
+        "ramp_up_minutes": 5,
+        "plateau_minutes": 20,
+        "ramp_down_minutes": 5
+      },
+      "expected_rps": 15,
+      "sla_targets": {
+        "avg_response_time_ms": 200,
+        "p95_response_time_ms": 500,
+        "error_rate_percent": 0.1,
+        "availability_percent": 99.9
+      }
+    },
+    "scenario_2_peak_load": {
+      "name": "Peak Hour Load",
+      "description": "Morning rush hour (9-11h) realistic load",
+      "users_concurrent": 50,
+      "users_total": 400,
+      "duration_minutes": 30,
+      "load_pattern": {
+        "ramp_up_minutes": 5,
+        "plateau_minutes": 20,
+        "ramp_down_minutes": 5
+      },
+      "expected_rps": 30,
+      "sla_targets": {
+        "avg_response_time_ms": 400,
+        "p95_response_time_ms": 1000,
+        "error_rate_percent": 0.5,
+        "availability_percent": 99.5
+      }
+    },
+    "scenario_3_marketing_campaign": {
+      "name": "Marketing Campaign Load",
+      "description": "High traffic during promotional campaign",
+      "users_concurrent": 100,
+      "users_total": 800,
+      "duration_minutes": 45,
+      "load_pattern": {
+        "ramp_up_minutes": 10,
+        "plateau_minutes": 30,
+        "ramp_down_minutes": 5
+      },
+      "expected_rps": 60,
+      "sla_targets": {
+        "avg_response_time_ms": 800,
+        "p95_response_time_ms": 2000,
+        "error_rate_percent": 2.0,
+        "availability_percent": 99.0
+      }
+    },
+    "scenario_4_stress_test": {
+      "name": "Stress Test - Breaking Point",
+      "description": "Find system limits and breaking point",
+      "users_concurrent": 200,
+      "users_total": 1000,
+      "duration_minutes": 30,
+      "load_pattern": {
+        "ramp_up_minutes": 15,
+        "plateau_minutes": 10,
+        "ramp_down_minutes": 5
+      },
+      "expected_rps": 120,
+      "sla_targets": {
+        "avg_response_time_ms": 1500,
+        "p95_response_time_ms": 5000,
+        "error_rate_percent": 5.0,
+        "availability_percent": 95.0
+      }
+    }
+  },
+  "endpoint_distribution": {
+    "POST /token": {
+      "percentage": 100,
+      "avg_response_time_target_ms": 300,
+      "current_performance_ms": 780,
+      "priority": "HIGH",
+      "optimization_needed": true
+    },
+    "GET /clients": {
+      "percentage": 85,
+      "requests_per_user_session": 3,
+      "avg_response_time_target_ms": 250,
+      "current_performance_ms": 350,
+      "priority": "MEDIUM",
+      "optimization_needed": true
+    },
+    "POST /clients": {
+      "percentage": 25,
+      "requests_per_user_session": 1,
+      "avg_response_time_target_ms": 400,
+      "current_performance_ms": 580,
+      "priority": "MEDIUM",
+      "optimization_needed": true
+    },
+    "GET /clients/{id}": {
+      "percentage": 60,
+      "requests_per_user_session": 3,
+      "avg_response_time_target_ms": 200,
+      "current_performance_ms": 280,
+      "priority": "LOW",
+      "optimization_needed": false
+    },
+    "PUT /clients/{id}": {
+      "percentage": 15,
+      "requests_per_user_session": 1,
+      "avg_response_time_target_ms": 400,
+      "current_performance_ms": 450,
+      "priority": "LOW",
+      "optimization_needed": false
+    },
+    "DELETE /clients/{id}": {
+      "percentage": 5,
+      "requests_per_user_session": 1,
+      "avg_response_time_target_ms": 300,
+      "current_performance_ms": 320,
+      "priority": "LOW",
+      "optimization_needed": false
+    }
+  },
+  "infrastructure_monitoring": {
+    "alert_thresholds": {
+      "concurrent_users_green": 30,
+      "concurrent_users_orange": 75,
+      "concurrent_users_red": 150,
+      "cpu_usage_percent": 70,
+      "memory_usage_percent": 80,
+      "database_connections_percent": 80,
+      "avg_response_time_ms": 1000,
+      "error_rate_percent": 1.0
+    },
+    "scaling_triggers": {
+      "scale_up_concurrent_users": 75,
+      "scale_up_cpu_percent": 70,
+      "scale_up_response_time_ms": 800,
+      "scale_down_concurrent_users": 25,
+      "scale_down_cpu_percent": 30
+    }
+  },
+  "business_context": {
+    "target_market": "French SME coffee shops",
+    "marketing_budget_euros": 15000,
+    "campaign_duration_weeks": 3,
+    "expected_roi": 3.0,
+    "customer_acquisition_cost_euros": 25,
+    "customer_lifetime_value_euros": 146,
+    "industry_benchmarks": {
+      "starbucks_avg_visit_minutes": 2.0,
+      "starbucks_pages_per_visit": 3.8,
+      "starbucks_bounce_rate_percent": 51.7,
+      "nespresso_avg_visit_minutes": 3.27,
+      "nespresso_pages_per_visit": 4.9,
+      "nespresso_bounce_rate_percent": 50.0,
+      "industry_conversion_rate_percent": 5.6,
+      "coffee_ecommerce_avg_order_value_euros": 75
+    }
+  },
+  "test_execution_plan": {
+    "phase_1_functional": {
+      "week": 1,
+      "objective": "Functional validation under light load",
+      "scenarios": ["scenario_1_normal_load"],
+      "duration_per_test_minutes": 15,
+      "frequency": "daily"
+    },
+    "phase_2_performance": {
+      "week": 2,
+      "objective": "Performance validation under realistic load",
+      "scenarios": ["scenario_1_normal_load", "scenario_2_peak_load"],
+      "duration_per_test_minutes": 30,
+      "frequency": "daily"
+    },
+    "phase_3_stress": {
+      "week": 3,
+      "objective": "Identify system limits and breaking points",
+      "scenarios": ["scenario_3_marketing_campaign", "scenario_4_stress_test"],
+      "duration_per_test_minutes": 45,
+      "frequency": "every 2 days"
+    }
+  },
+  "success_criteria": {
+    "functional_requirements": {
+      "all_endpoints_respond": true,
+      "authentication_works": true,
+      "data_consistency": true,
+      "no_data_loss": true
+    },
+    "performance_requirements": {
+      "normal_load_response_time_ms": 400,
+      "peak_load_response_time_ms": 800,
+      "error_rate_under_normal_load_percent": 0.5,
+      "error_rate_under_peak_load_percent": 2.0,
+      "system_recovery_time_minutes": 5
+    },
+    "business_requirements": {
+      "support_50_concurrent_users": true,
+      "handle_marketing_campaign_traffic": true,
+      "maintain_user_experience_quality": true,
+      "cost_effective_scaling": true
+    }
+  }
+}

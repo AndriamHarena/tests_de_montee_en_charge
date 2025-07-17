@@ -1,0 +1,175 @@
+config:
+  target: 'http://localhost:8000'
+  phases:
+    # Test de stress progressif
+    - duration: 120
+      arrivalRate: 20
+      name: "Phase 1: 20 users/sec"
+    - duration: 180
+      arrivalRate: 20
+      name: "Phase 2: Maintien 20 users/sec"
+    - duration: 120
+      arrivalRate: 40
+      name: "Phase 3: Montée à 40 users/sec"
+    - duration: 180
+      arrivalRate: 40
+      name: "Phase 4: Maintien 40 users/sec"
+    - duration: 60
+      arrivalRate: 10
+      name: "Phase 5: Descente"
+
+  # Seuils de performance pour stress test
+  ensure:
+    p95: 2000  # 95% des requêtes < 2s
+    p99: 3000  # 99% des requêtes < 3s
+    maxErrorRate: 10  # Max 10% d'erreurs acceptable en stress
+
+  # Pool de données pour variabilité
+  payload:
+    - path: "./test-data.csv"
+      fields:
+        - "clientName"
+        - "clientEmail"
+        - "productName"
+        - "productCategory"
+      order: sequence
+      skipHeader: true
+
+  # Variables dynamiques
+  variables:
+    randomPrice: "{{ $randomNumber(200, 2000) }}"
+    randomStock: "{{ $randomNumber(10, 100) }}"
+    randomQuantity: "{{ $randomNumber(1, 5) }}"
+
+  # Plugins pour métriques détaillées
+  plugins:
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+    publish-metrics:
+      - type: datadog
+        prefix: "artillery.buyyourkawa"
+
+scenarios:
+  - name: "Stress Test Workflow"
+    weight: 80
+    flow:
+      # Authentification avec cache
+      - post:
+          url: "/token"
+          form:
+            username: "admin"
+            password: "secret123"
+          capture:
+            - json: "$.access_token"
+              as: "authToken"
+          expect:
+            - statusCode: 200
+
+      # Workflow principal avec gestion d'erreurs
+      - loop:
+          - post:
+              url: "/clients"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+                Content-Type: "application/json"
+              json:
+                nom: "{{ clientName || 'Client Stress' }} {{ $randomString() }}"
+                email: "{{ clientEmail || 'stress' }}{{ $randomString() }}@test.com"
+                telephone: "+33{{ $randomNumber(100000000, 999999999) }}"
+              expect:
+                - statusCode: [200, 201, 400]  # Accepter erreurs de validation
+              ifTrue:
+                - get:
+                    url: "/clients?limit=50"
+                    headers:
+                      Authorization: "Bearer {{ authToken }}"
+
+          - think: 0.2
+
+          - post:
+              url: "/products"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+                Content-Type: "application/json"
+              json:
+                nom: "{{ productName || 'Produit Stress' }} {{ $randomString() }}"
+                description: "Produit de test stress {{ $randomString() }}"
+                prix: "{{ randomPrice }}"
+                categorie: "{{ productCategory || 'coffee' }}"
+                stock: "{{ randomStock }}"
+              expect:
+                - statusCode: [200, 201, 400]
+
+          - think: 0.2
+
+          - get:
+              url: "/products?limit=50&category={{ productCategory || 'coffee' }}"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+
+          - think: 0.3
+
+          # Commande avec gestion d'erreurs
+          - post:
+              url: "/orders"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+                Content-Type: "application/json"
+              json:
+                client_id: 1
+                items:
+                  - product_id: 1
+                    quantite: "{{ randomQuantity }}"
+                    prix_unitaire: "{{ randomPrice }}"
+                total: "{{ randomPrice * randomQuantity }}"
+              expect:
+                - statusCode: [200, 201, 400, 404]  # Accepter erreurs métier
+
+          - think: 0.5
+
+        count: 3  # Répéter le workflow 3 fois par utilisateur
+
+      # Analytics périodiques
+      - get:
+          url: "/analytics?period=hour&limit=20"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: [200, 401]  # Gérer expiration token
+
+  # Scénario de lecture seule (moins intensif)
+  - name: "Read-Only Operations"
+    weight: 20
+    flow:
+      - post:
+          url: "/token"
+          form:
+            username: "admin"
+            password: "secret123"
+          capture:
+            - json: "$.access_token"
+              as: "authToken"
+
+      - loop:
+          - get:
+              url: "/clients?limit=100"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+
+          - think: 0.5
+
+          - get:
+              url: "/products?limit=100"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+
+          - think: 0.5
+
+          - get:
+              url: "/orders?limit=50"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+
+          - think: 1
+
+        count: 5

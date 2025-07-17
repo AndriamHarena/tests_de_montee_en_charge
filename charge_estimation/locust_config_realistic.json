@@ -1,0 +1,239 @@
+{
+  "test_scenarios": {
+    "normal_load": {
+      "users_total": 200,
+      "users_concurrent": 25,
+      "spawn_rate": 5,
+      "duration_seconds": 1800,
+      "load_pattern": "ramp-up: 5min -> plateau: 20min -> down: 5min",
+      "description": "Charge normale quotidienne - validation fonctionnelle"
+    },
+    "peak_load": {
+      "users_total": 400,
+      "users_concurrent": 50,
+      "spawn_rate": 10,
+      "duration_seconds": 1800,
+      "load_pattern": "ramp-up: 5min -> plateau: 20min -> down: 5min",
+      "description": "Charge de pointe réaliste - heures d'affluence"
+    },
+    "marketing_campaign": {
+      "users_total": 800,
+      "users_concurrent": 100,
+      "spawn_rate": 10,
+      "duration_seconds": 2700,
+      "load_pattern": "ramp-up: 10min -> plateau: 30min -> down: 5min",
+      "description": "Charge exceptionnelle - campagne marketing"
+    },
+    "stress_test": {
+      "users_total": 1000,
+      "users_concurrent": 200,
+      "spawn_rate": 13,
+      "duration_seconds": 1800,
+      "load_pattern": "ramp-up: 15min -> plateau: 10min -> down: 5min",
+      "description": "Test de limite - identification point de rupture"
+    }
+  },
+  "user_behavior": {
+    "coffee_shop_manager": {
+      "weight": 6,
+      "think_time_min": 2,
+      "think_time_max": 8,
+      "session_actions": [
+        {"endpoint": "POST /token", "weight": 10, "think_time": 1},
+        {"endpoint": "GET /clients", "weight": 30, "think_time": 3},
+        {"endpoint": "GET /clients/{id}", "weight": 40, "think_time": 2},
+        {"endpoint": "POST /clients", "weight": 10, "think_time": 5},
+        {"endpoint": "PUT /clients/{id}", "weight": 10, "think_time": 3}
+      ]
+    },
+    "barista_employee": {
+      "weight": 3,
+      "think_time_min": 1,
+      "think_time_max": 5,
+      "session_actions": [
+        {"endpoint": "POST /token", "weight": 10, "think_time": 1},
+        {"endpoint": "GET /clients", "weight": 50, "think_time": 2},
+        {"endpoint": "GET /clients/{id}", "weight": 35, "think_time": 2},
+        {"endpoint": "PUT /clients/{id}", "weight": 5, "think_time": 3}
+      ]
+    },
+    "manager_analyst": {
+      "weight": 1,
+      "think_time_min": 5,
+      "think_time_max": 15,
+      "session_actions": [
+        {"endpoint": "POST /token", "weight": 5, "think_time": 1},
+        {"endpoint": "GET /clients", "weight": 50, "think_time": 5},
+        {"endpoint": "GET /clients/{id}", "weight": 40, "think_time": 3},
+        {"endpoint": "DELETE /clients/{id}", "weight": 5, "think_time": 10}
+      ]
+    }
+  },
+  "performance_targets": {
+    "normal_load": {
+      "avg_response_time_ms": 200,
+      "p95_response_time_ms": 500,
+      "p99_response_time_ms": 1000,
+      "error_rate_percent": 0.1,
+      "requests_per_second": 15
+    },
+    "peak_load": {
+      "avg_response_time_ms": 400,
+      "p95_response_time_ms": 1000,
+      "p99_response_time_ms": 2000,
+      "error_rate_percent": 0.5,
+      "requests_per_second": 30
+    },
+    "marketing_campaign": {
+      "avg_response_time_ms": 800,
+      "p95_response_time_ms": 2000,
+      "p99_response_time_ms": 5000,
+      "error_rate_percent": 2.0,
+      "requests_per_second": 60
+    },
+    "stress_test": {
+      "avg_response_time_ms": 1500,
+      "p95_response_time_ms": 5000,
+      "p99_response_time_ms": 10000,
+      "error_rate_percent": 5.0,
+      "requests_per_second": 120
+    }
+  },
+  "endpoint_configuration": {
+    "POST /token": {
+      "method": "POST",
+      "url": "/token",
+      "headers": {"Content-Type": "application/x-www-form-urlencoded"},
+      "data": "username=testuser&password=testpass",
+      "expected_status": 200,
+      "timeout_seconds": 5,
+      "retry_count": 2
+    },
+    "GET /clients": {
+      "method": "GET", 
+      "url": "/clients",
+      "headers": {"Authorization": "Bearer {token}"},
+      "expected_status": 200,
+      "timeout_seconds": 3,
+      "retry_count": 1
+    },
+    "POST /clients": {
+      "method": "POST",
+      "url": "/clients",
+      "headers": {
+        "Authorization": "Bearer {token}",
+        "Content-Type": "application/json"
+      },
+      "data": {
+        "nom": "Client Test",
+        "email": "test@example.com",
+        "telephone": "0123456789",
+        "adresse": {
+          "rue": "123 Rue Test",
+          "ville": "Paris",
+          "code_postal": "75001"
+        }
+      },
+      "expected_status": 201,
+      "timeout_seconds": 5,
+      "retry_count": 2
+    },
+    "GET /clients/{id}": {
+      "method": "GET",
+      "url": "/clients/{client_id}",
+      "headers": {"Authorization": "Bearer {token}"},
+      "expected_status": 200,
+      "timeout_seconds": 3,
+      "retry_count": 1
+    },
+    "PUT /clients/{id}": {
+      "method": "PUT",
+      "url": "/clients/{client_id}",
+      "headers": {
+        "Authorization": "Bearer {token}",
+        "Content-Type": "application/json"
+      },
+      "data": {
+        "nom": "Client Updated",
+        "email": "updated@example.com"
+      },
+      "expected_status": 200,
+      "timeout_seconds": 5,
+      "retry_count": 2
+    },
+    "DELETE /clients/{id}": {
+      "method": "DELETE",
+      "url": "/clients/{client_id}",
+      "headers": {"Authorization": "Bearer {token}"},
+      "expected_status": 204,
+      "timeout_seconds": 3,
+      "retry_count": 1
+    }
+  },
+  "monitoring_configuration": {
+    "metrics_to_track": [
+      "response_time_avg",
+      "response_time_p95",
+      "response_time_p99",
+      "requests_per_second",
+      "error_rate",
+      "concurrent_users",
+      "cpu_usage",
+      "memory_usage",
+      "database_connections"
+    ],
+    "alert_thresholds": {
+      "response_time_ms": 1000,
+      "error_rate_percent": 1.0,
+      "cpu_usage_percent": 80,
+      "memory_usage_percent": 85
+    },
+    "reporting": {
+      "generate_html_report": true,
+      "generate_csv_export": true,
+      "real_time_dashboard": true,
+      "screenshot_on_failure": true
+    }
+  },
+  "test_data": {
+    "test_users": [
+      {"username": "manager1", "password": "pass123", "role": "manager"},
+      {"username": "barista1", "password": "pass123", "role": "barista"},
+      {"username": "analyst1", "password": "pass123", "role": "analyst"}
+    ],
+    "sample_clients": [
+      {
+        "nom": "Café Central",
+        "email": "contact@cafecentral.fr",
+        "telephone": "0145678901",
+        "adresse": {"rue": "15 Rue de Rivoli", "ville": "Paris", "code_postal": "75001"}
+      },
+      {
+        "nom": "Bistrot du Coin",
+        "email": "info@bistrotducoin.fr", 
+        "telephone": "0156789012",
+        "adresse": {"rue": "8 Avenue Montaigne", "ville": "Paris", "code_postal": "75008"}
+      }
+    ]
+  },
+  "execution_schedule": {
+    "phase_1_functional": {
+      "week": 1,
+      "tests": ["normal_load"],
+      "frequency": "daily",
+      "duration_per_test": "15min"
+    },
+    "phase_2_performance": {
+      "week": 2,
+      "tests": ["normal_load", "peak_load"],
+      "frequency": "daily", 
+      "duration_per_test": "30min"
+    },
+    "phase_3_stress": {
+      "week": 3,
+      "tests": ["marketing_campaign", "stress_test"],
+      "frequency": "every_2_days",
+      "duration_per_test": "45min"
+    }
+  }
+}

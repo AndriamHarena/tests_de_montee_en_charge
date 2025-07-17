@@ -1,0 +1,54 @@
+{
+  "name": "campaign_extended",
+  "description": "Scénario campagne étendu avec 10 routes - Promotion marketing",
+  "users": 100,
+  "spawn_rate": 10,
+  "duration": "45m",
+  "expected_rps": 25,
+  "sla_response_time": 1000,
+  "routes_coverage": [
+    "/token",
+    "/clients",
+    "/clients/{id}",
+    "/products",
+    "/orders",
+    "/analytics"
+  ],
+  "personas": {
+    "CoffeeShopManagerUser": {
+      "weight": 6,
+      "description": "Gérant gérant l'afflux de nouveaux clients",
+      "key_actions": [
+        "Création clients en masse",
+        "Gestion stock produits",
+        "Traitement commandes importantes",
+        "Suivi analytics campagne"
+      ]
+    },
+    "BaristaEmployeeUser": {
+      "weight": 3,
+      "description": "Équipe renforcée pour la campagne",
+      "key_actions": [
+        "Accueil nouveaux clients",
+        "Gestion commandes multiples",
+        "Vérification disponibilité produits"
+      ]
+    },
+    "ManagerAnalystUser": {
+      "weight": 1,
+      "description": "Suivi performance campagne",
+      "key_actions": [
+        "Analytics campagne détaillées",
+        "Suivi conversion clients",
+        "Analyse performance produits",
+        "Monitoring ROI"
+      ]
+    }
+  },
+  "expected_behavior": {
+    "avg_response_time": "< 700ms",
+    "p95_response_time": "< 1000ms",
+    "error_rate": "< 3%",
+    "throughput": "25-35 RPS"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "name": "normal_extended",
+  "description": "Scénario normal étendu avec 10 routes - Usage quotidien typique",
+  "users": 25,
+  "spawn_rate": 5,
+  "duration": "30m",
+  "expected_rps": 8,
+  "sla_response_time": 500,
+  "routes_coverage": [
+    "/token",
+    "/clients",
+    "/clients/{id}",
+    "/products",
+    "/orders",
+    "/analytics"
+  ],
+  "personas": {
+    "CoffeeShopManagerUser": {
+      "weight": 6,
+      "description": "Gérant utilisant toutes les fonctionnalités",
+      "key_actions": [
+        "Gestion clients CRUD",
+        "Gestion produits",
+        "Création commandes",
+        "Consultation analytics"
+      ]
+    },
+    "BaristaEmployeeUser": {
+      "weight": 3,
+      "description": "Employé consultant clients et créant commandes",
+      "key_actions": [
+        "Consultation clients",
+        "Consultation produits",
+        "Création commandes simples"
+      ]
+    },
+    "ManagerAnalystUser": {
+      "weight": 1,
+      "description": "Analyste effectuant des analyses approfondies",
+      "key_actions": [
+        "Analytics multi-périodes",
+        "Analyses clients détaillées",
+        "Analyses produits par catégorie",
+        "Tendances commandes"
+      ]
+    }
+  },
+  "expected_behavior": {
+    "avg_response_time": "< 300ms",
+    "p95_response_time": "< 500ms",
+    "error_rate": "< 1%",
+    "throughput": "8-12 RPS"
+  }
+}

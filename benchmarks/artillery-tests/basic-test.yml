@@ -1,0 +1,139 @@
+config:
+  target: 'http://localhost:8000'
+  phases:
+    - duration: 30
+      arrivalRate: 5
+      name: "Warm up"
+    - duration: 60
+      arrivalRate: 10
+      name: "Ramp up load"
+    - duration: 30
+      arrivalRate: 5
+      name: "Cool down"
+  
+  # Seuils de performance
+  ensure:
+    p95: 1000  # 95% des requêtes < 1s
+    maxErrorRate: 5  # Max 5% d'erreurs
+
+  # Variables globales
+  variables:
+    clientName: "Client Artillery {{ $randomString() }}"
+    clientEmail: "artillery-{{ $randomString() }}@test.com"
+    productName: "Produit Artillery {{ $randomString() }}"
+    productPrice: "{{ $randomNumber(100, 1000) }}"
+
+  # Plugins
+  plugins:
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+
+scenarios:
+  - name: "Test API BuyYourKawa"
+    weight: 100
+    flow:
+      # Étape 1: Authentification
+      - post:
+          url: "/token"
+          form:
+            username: "admin"
+            password: "secret123"
+          capture:
+            - json: "$.access_token"
+              as: "authToken"
+          expect:
+            - statusCode: 200
+            - hasProperty: "access_token"
+
+      # Étape 2: Création d'un client
+      - post:
+          url: "/clients"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+            Content-Type: "application/json"
+          json:
+            nom: "{{ clientName }}"
+            email: "{{ clientEmail }}"
+            telephone: "+33123456789"
+          expect:
+            - statusCode: [200, 201]
+          capture:
+            - json: "$.id"
+              as: "clientId"
+
+      # Pause courte
+      - think: 0.5
+
+      # Étape 3: Récupération des clients
+      - get:
+          url: "/clients"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json"
+
+      # Pause courte
+      - think: 0.5
+
+      # Étape 4: Création d'un produit
+      - post:
+          url: "/products"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+            Content-Type: "application/json"
+          json:
+            nom: "{{ productName }}"
+            description: "Produit de test Artillery"
+            prix: "{{ productPrice }}"
+            categorie: "coffee"
+            stock: 50
+          expect:
+            - statusCode: [200, 201]
+          capture:
+            - json: "$.id"
+              as: "productId"
+
+      # Pause courte
+      - think: 0.5
+
+      # Étape 5: Récupération des produits
+      - get:
+          url: "/products"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 200
+
+      # Pause courte
+      - think: 0.5
+
+      # Étape 6: Création d'une commande
+      - post:
+          url: "/orders"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+            Content-Type: "application/json"
+          json:
+            client_id: 1
+            items:
+              - product_id: 1
+                quantite: 2
+                prix_unitaire: "{{ productPrice }}"
+            total: "{{ productPrice * 2 }}"
+          expect:
+            - statusCode: [200, 201]
+
+      # Pause courte
+      - think: 0.5
+
+      # Étape 7: Analytics
+      - get:
+          url: "/analytics?period=day&limit=10"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 200
+
+      # Pause finale
+      - think: 1

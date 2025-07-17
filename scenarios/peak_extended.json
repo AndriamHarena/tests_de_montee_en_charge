@@ -1,0 +1,53 @@
+{
+  "name": "peak_extended",
+  "description": "Scénario pic étendu avec 10 routes - Heures de pointe",
+  "users": 50,
+  "spawn_rate": 10,
+  "duration": "30m",
+  "expected_rps": 15,
+  "sla_response_time": 800,
+  "routes_coverage": [
+    "/token",
+    "/clients",
+    "/clients/{id}",
+    "/products",
+    "/orders",
+    "/analytics"
+  ],
+  "personas": {
+    "CoffeeShopManagerUser": {
+      "weight": 6,
+      "description": "Gérant gérant l'affluence",
+      "key_actions": [
+        "Gestion clients intensive",
+        "Création produits",
+        "Traitement commandes multiples",
+        "Monitoring analytics temps réel"
+      ]
+    },
+    "BaristaEmployeeUser": {
+      "weight": 3,
+      "description": "Employés multiples en service",
+      "key_actions": [
+        "Consultation clients fréquente",
+        "Vérification stock produits",
+        "Création commandes rapides"
+      ]
+    },
+    "ManagerAnalystUser": {
+      "weight": 1,
+      "description": "Monitoring performance en temps réel",
+      "key_actions": [
+        "Analytics temps réel",
+        "Surveillance tendances",
+        "Analyses performance"
+      ]
+    }
+  },
+  "expected_behavior": {
+    "avg_response_time": "< 500ms",
+    "p95_response_time": "< 800ms",
+    "error_rate": "< 2%",
+    "throughput": "15-20 RPS"
+  }
+}
