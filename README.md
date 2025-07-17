@@ -1,5 +1,10 @@
 # BuyYourKawa API - Tests de Charge Complets
 
+![Python](https://img.shields.io/badge/python-v3.8+-blue.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.111.0-green.svg)
+![Locust](https://img.shields.io/badge/Locust-2.25.0-orange.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
 **Auteur**: ANDRIAMANANJARA MANDIMBY Harena  
 **Projet**: TP Tests de Montée en Charge - DSP4 Archi O24A  
 **Date**: 16 Juillet 2025
